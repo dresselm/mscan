@@ -1,0 +1,16 @@
+general:
+  verbose: false
+  supported_image_file_types: [jpg, png]
+  supported_video_file_types: [mov, avi, mp4]
+
+scanner:
+  meta_data_suffix: mscan
+  default_scan_directory: /Volumes/Server1/Photos/IPhone/Matt
+  # num_threads: 5
+
+analyzer:
+
+reporter:
+  file_size_unit: MB
+  number_formatter: "%2.3f"
+  percentage_formatter: "#{NUMBER_FORMATTER}%"
