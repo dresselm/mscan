@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe Mscan::Scanner do
-  it 'should do something'
+  it 'needs specs'
 end
