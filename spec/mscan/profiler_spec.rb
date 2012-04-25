@@ -32,6 +32,7 @@ describe Mscan::Profiler do
       result = Mscan::Profiler.measure { sleep(expected_total_time) }
       result.should_not be_empty
       result.last.should be_within(0.01).of(expected_total_time)
+      Timecop.return
     end
   end
 end
