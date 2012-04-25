@@ -1,6 +1,7 @@
 require 'rubygems'
 
 require 'simplecov'
+require 'timecop'
 require 'bundler/setup'
 
 require 'mscan'
