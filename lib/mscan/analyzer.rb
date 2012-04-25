@@ -1,4 +1,5 @@
-module Mscan
+module Mscan #nodoc
+
   class Analyzer
 
   end

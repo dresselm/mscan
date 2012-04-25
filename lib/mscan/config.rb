@@ -1,4 +1,5 @@
-module Mscan
+module Mscan #nodoc
+
   class Config
     CONFIGURATION_FILE='config.yml'
 

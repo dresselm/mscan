@@ -5,6 +5,5 @@ require 'mscan/scanner'
 require 'mscan/analyzer'
 require 'mscan/reporter'
 
-module Mscan
-
+module Mscan #nodoc
 end

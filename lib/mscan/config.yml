@@ -5,8 +5,7 @@ general:
 
 scanner:
   meta_data_suffix: mscan
-  default_scan_directory: /Volumes/Server1/Photos/IPhone/Matt
-  # num_threads: 5
+  default_scan_directory: ~/scan
 
 analyzer:
 
