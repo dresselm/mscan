@@ -16,10 +16,11 @@ Gem::Specification.new do |gem|
   gem.version       = Mscan::VERSION
 
   # gem.add_runtime_dependency(%q<yajl-ruby>, [">= 3.1.3"])
+  gem.add_development_dependency(%q<fakefs>)
   gem.add_development_dependency(%q<redcarpet>)
   gem.add_development_dependency(%q<rspec>)
-  gem.add_development_dependency(%q<simplecov>)
   gem.add_development_dependency(%q<ruby-debug19>)
+  gem.add_development_dependency(%q<simplecov>)
   gem.add_development_dependency(%q<timecop>)
   gem.add_development_dependency(%q<yard>)
 end
