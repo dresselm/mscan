@@ -1,4 +1,5 @@
 module Mscan
+  # Utility methods for tracking Mscan measurables
   class Profiler
 
     # Measures the amount of time that is spent

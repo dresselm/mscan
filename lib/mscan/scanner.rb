@@ -1,5 +1,6 @@
 module Mscan #nodoc
-
+  # Scans directories, instruments media files and stores
+  # the instrumentation data in metadata files
   class Scanner
 
     def initialize
@@ -7,6 +8,7 @@ module Mscan #nodoc
       puts "Scanning the #{@scan_dir} directory...\n"
     end
 
+    # Scans directories and instruments valid media files
     def scan
       Profiler.measure('scan') do
         find_directories_to_instrument.each do |dir_path|

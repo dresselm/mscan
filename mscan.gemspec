@@ -15,7 +15,8 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Mscan::VERSION
 
-  # gem.add_runtime_dependency(%q<yajl-ruby>, [">= 3.1.3"])
+  gem.add_runtime_dependency(%q<yajl-ruby>)
+
   gem.add_development_dependency(%q<fakefs>)
   gem.add_development_dependency(%q<redcarpet>)
   gem.add_development_dependency(%q<rspec>)
