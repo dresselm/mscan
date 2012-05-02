@@ -7,10 +7,11 @@ module Mscan #nodoc
     include Singleton
 
     # Setting file name
-    SETTINGS_FILE='config.yml'
+    SETTINGS_FILE='settings.yml'
 
-    def initialize
-      @settings = load_settings
+    def initialize(file_path=nil)
+      settings_file_path = build_settings_file_path(file_path)
+      @settings = load_settings(settings_file_path)
     end
 
     # Returns an arbitrary setting given a setting's group and key
@@ -22,8 +23,13 @@ module Mscan #nodoc
       @settings[group][key]
     end
 
-    def load_settings
-      YAML.load_file( File.join( Dir.pwd, 'lib', 'mscan', SETTINGS_FILE ) )
+    def build_settings_file_path(settings_file_path)
+      settings_file_path || File.join( Dir.pwd, 'lib', 'mscan', SETTINGS_FILE )
+    end
+    private :build_settings_file_path
+
+    def load_settings(settings_file_path)
+      YAML.load_file( settings_file_path )
     end
     private :load_settings
   end
