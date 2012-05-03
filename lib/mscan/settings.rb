@@ -1,4 +1,5 @@
 require 'singleton'
+require 'yaml'
 
 module Mscan #nodoc
 
@@ -14,13 +15,18 @@ module Mscan #nodoc
       @settings = load_settings(settings_file_path)
     end
 
-    # Returns an arbitrary setting given a setting's group and key
+    # Returns an arbitrary setting given the setting's key
     #
-    # @param [String] the settings group that the setting is located in
-    # @param [String] the settings key associated with a particular setting
+    # TODO Improve this api:
+    #   Mscan::Settings.instance.settings('supported_image_file_types')
+    #
+    #   Mscan::Settings.instance.supported_image_file_types
+    #   Mscan::Settings.instance[:supported_image_file_types]
+    #
+    # @param [String] the key associated with a given settings
     # @return [String] the setting
-    def setting(group, key)
-      @settings[group][key]
+    def setting(key)
+      @settings[key]
     end
 
     def build_settings_file_path(settings_file_path)
