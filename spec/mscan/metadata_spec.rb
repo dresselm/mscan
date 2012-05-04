@@ -1,14 +1,8 @@
 require 'spec_helper'
-require 'fakefs'
+require 'fakefs/spec_helpers'
 
 describe Mscan::Metadata do
-  before do
-    FakeFS.activate!
-  end
-
-  after do
-    FakeFS.deactivate!
-  end
+  include FakeFS::SpecHelpers
 
   context 'write' do
     it "should write the content to the metadata file" do
