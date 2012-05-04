@@ -11,9 +11,10 @@ module Mscan
 
     # TODO call this when saving metadata
     def to_params
-
+      # no-op
     end
 
+    # Returns a unique checksum
     def checksum
       Digest::MD5.file(@path)
     end
