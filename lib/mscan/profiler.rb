@@ -14,7 +14,7 @@ module Mscan
       start_time = Time.now
       result = block.call
       total_time = Time.now - start_time
-      puts "#{name || 'the block'} took #{total_time}s"
+      puts "#{name || 'the block'} took #{total_time}s" if Mscan::Settings.verbose
 
       [result, total_time]
     end

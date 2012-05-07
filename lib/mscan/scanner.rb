@@ -4,8 +4,8 @@ module Mscan #nodoc
   class Scanner
 
     def initialize
-      @scan_dir = Config.new.attribute('scanner','default_scan_directory')
-      puts "Scanning the #{@scan_dir} directory...\n"
+      @scan_dirs = Mscan::Settings.scan_directories
+      puts "Scanning the #{@scan_dirs.join(', ')} directories...\n"
     end
 
     # Scans directories and instruments valid media files
@@ -20,7 +20,7 @@ module Mscan #nodoc
     def find_directories_to_instrument
       directories = []
       Profiler.measure('find_directories') do
-        Find.find(@scan_dir) do |path|
+        Find.find(@scan_dirs) do |path|
           # Paths are relative to the working directory
           if File.directory?(path)
             Find.prune if File.basename(path)[0] == ?.

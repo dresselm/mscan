@@ -1,15 +1,15 @@
 # general:
 verbose: false
-supported_image_file_types: [jpg, png]
-supported_video_file_types: [mov, avi, mp4]
+# supported_image_file_types: [jpg, png]
+# supported_video_file_types: [mov, avi, mp4]
 
 # scanner:
-meta_data_suffix: mscan
-default_scan_directory: ~/scan
+# meta_data_suffix: mscan
+scan_directories: [~/scan]
 
 # analyzer:
 
 # reporter:
-file_size_unit: MB
-number_formatter: "%2.3f"
-percentage_formatter: "#{NUMBER_FORMATTER}%"
+# file_size_unit: MB
+# number_formatter: "%2.3f"
+# percentage_formatter: "#{NUMBER_FORMATTER}%"
