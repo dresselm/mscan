@@ -1,4 +1,4 @@
-module Mscan
+module Mscan #nodoc
   class MediaDir
     attr_reader :path
 
@@ -6,10 +6,10 @@ module Mscan
       @path = dir_path
     end
 
-    # Returns a list of all Mscan::MediaDirs under a given path
+    # Returns a list of all {Mscan::MediaDir} objects under a given path
     #
-    # @param [String] the root path
-    # @return [Array] an array of Mscan::MediaDir
+    # @param [String] root_path the root path
+    # @return [Array] an array of {Mscan::MediaDir} objects
     def self.find_media_dirs(root_path)
       media_directories = []
       Find.find(root_path) do |path|

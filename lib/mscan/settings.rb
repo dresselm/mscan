@@ -17,12 +17,14 @@ module Mscan #nodoc
       deep_merge!(@_settings, options)
     end
 
+    # nodoc
     def method_missing(name, *args, &block)
       # TODO need to fail if the name is unknown
       # fail(NoMethodError, "unkown setting #{name}", caller)
       @_settings[name.to_s]
     end
 
+    # nodoc
     def deep_merge!(target, data)
       merger = proc do |key, v1, v2|
         Hash == v1 && Hash == v2 ? v1.merge(v2, &merger) : v2
@@ -31,6 +33,7 @@ module Mscan #nodoc
     end
     private_class_method :deep_merge!
 
+    # nodoc
     def load_settings
       puts "loading settings file"
       # TODO pull in rails deep_symbolize
@@ -38,6 +41,7 @@ module Mscan #nodoc
     end
     private_class_method :load_settings
 
+    # nodoc
     def build_settings_file_path
       File.join( Dir.pwd, 'lib', 'mscan', SETTINGS_FILE )
     end
