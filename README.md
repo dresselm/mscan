@@ -16,9 +16,17 @@ Or install it yourself as:
 
     $ gem install mscan
 
+
+    $ gem uninstall mscan && rake build && gem install pkg/mscan
+
 ## Usage
 
 TODO: Write usage instructions here
+
+## TODO
+
+* Implement the spec/media directory as a 'fixture' for FakeFS
+*
 
 ## Contributing
 

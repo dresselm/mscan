@@ -1,4 +1,5 @@
 require 'mscan/version'
+require 'mscan/media_type'
 require 'mscan/settings'
 require 'mscan/profiler'
 require 'mscan/media'
