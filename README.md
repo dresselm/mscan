@@ -26,7 +26,8 @@ TODO: Write usage instructions here
 ## TODO
 
 * Implement the spec/media directory as a 'fixture' for FakeFS
-*
+* Add File meta data to Mscan::Media, like mtime, file size
+* Add Directory meta data to Mscan::MediaDir like media file count, meta data file, dir size
 
 ## Contributing
 
