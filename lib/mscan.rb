@@ -7,5 +7,8 @@ require 'mscan/scanner'
 require 'mscan/analyzer'
 require 'mscan/reporter'
 
+Mscan::Settings.load!
+
 module Mscan #nodoc
 end
+

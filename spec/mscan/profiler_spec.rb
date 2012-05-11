@@ -20,6 +20,10 @@ describe Mscan::Profiler do
         Mscan::Settings.load!({'verbose' => true})
       end
 
+      after do
+        Mscan::Settings.load!({'verbose' => false})
+      end
+
       it 'should print the name' do
         $stdout.should_receive(:puts).with(/some name/)
         Mscan::Profiler.measure('some name') { 2 + 2 }
@@ -34,6 +38,10 @@ describe Mscan::Profiler do
     context 'verbose = false' do
       before do
         Mscan::Settings.load!({'verbose' => false})
+      end
+
+      after do
+        Timecop.return
       end
 
       it 'should not print the name' do
@@ -54,7 +62,6 @@ describe Mscan::Profiler do
       result = Mscan::Profiler.measure { sleep(expected_total_time) }
       result.should_not be_empty
       result.last.should be_within(0.01).of(expected_total_time)
-      Timecop.return
     end
   end
 end

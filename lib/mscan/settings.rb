@@ -9,11 +9,12 @@ module Mscan #nodoc
     # Setting file name
     SETTINGS_FILE='settings.yml'
 
-    @_settings = {}
+    @_settings = nil
     attr_reader :_settings
 
     def load!(options={})
-      deep_merge!(@_settings, load_settings(build_settings_file_path).merge(options))
+      @_settings ||= load_settings
+      deep_merge!(@_settings, options)
     end
 
     def method_missing(name, *args, &block)
@@ -30,15 +31,17 @@ module Mscan #nodoc
     end
     private_class_method :deep_merge!
 
+    def load_settings
+      puts "loading settings file"
+      # TODO pull in rails deep_symbolize
+      YAML.load_file( build_settings_file_path )
+    end
+    private_class_method :load_settings
+
     def build_settings_file_path
       File.join( Dir.pwd, 'lib', 'mscan', SETTINGS_FILE )
     end
     private_class_method :build_settings_file_path
 
-    def load_settings(settings_file_path)
-      # TODO pull in rails deep_symbolize
-      YAML.load_file( settings_file_path )
-    end
-    private_class_method :load_settings
   end
 end

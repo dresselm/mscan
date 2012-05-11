@@ -1,21 +1,25 @@
 require 'digest/md5'
 
-module Mscan
-  # TODO move some Find/File functionality that is in scanner to here
+module Mscan #nodoc
+  # Media file wrapper
   class Media
-    attr_reader :path
+    attr_reader :path,
+                :file_name,
+                :file_type
 
     def initialize(file_path)
       @path = file_path
+      @file_name = file_path.split('/').last
+      @file_type = @file_name.split('.').last
     end
 
-    # TODO call this when saving metadata
+    # Returns a hash representing media file attributes
     def to_params
-      # no-op
+      {:fingerprint => fingerprint}
     end
 
-    # Returns a unique checksum
-    def checksum
+    # Returns a unique identifier for the file
+    def fingerprint
       Digest::MD5.file(@path)
     end
 
