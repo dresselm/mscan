@@ -9,20 +9,42 @@ describe Mscan::Profiler do
       Mscan::Profiler.measure {  stub.something }
     end
 
-    it 'should print the name' do
-      $stdout.should_receive(:puts).with(/some name/)
-      Mscan::Profiler.measure('some name') { 2 + 2 }
-    end
-
-    it "should print 'the block'" do
-      $stdout.should_receive(:puts).with(/the block/)
-      Mscan::Profiler.measure { 2 + 2 }
-    end
-
     it 'should return the result of the block call' do
       result = Mscan::Profiler.measure { 2 + 2 }
       result.should_not be_empty
       result.first.should == 4
+    end
+
+    context 'verbose = true' do
+      before do
+        Mscan::Settings.load!({'verbose' => true})
+      end
+
+      it 'should print the name' do
+        $stdout.should_receive(:puts).with(/some name/)
+        Mscan::Profiler.measure('some name') { 2 + 2 }
+      end
+
+      it "should print 'the block'" do
+        $stdout.should_receive(:puts).with(/the block/)
+        Mscan::Profiler.measure { 2 + 2 }
+      end
+    end
+
+    context 'verbose = false' do
+      before do
+        Mscan::Settings.load!({'verbose' => false})
+      end
+
+      it 'should not print the name' do
+        $stdout.should_not_receive(:puts).with(/some name/)
+        Mscan::Profiler.measure('some name') { 2 + 2 }
+      end
+
+      it "should not print 'the block'" do
+        $stdout.should_not_receive(:puts).with(/the block/)
+        Mscan::Profiler.measure { 2 + 2 }
+      end
     end
 
     # TODO write a test that measures the exact elapsed time
