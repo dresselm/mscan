@@ -14,11 +14,16 @@ module Mscan #nodoc
     end
 
     # Returns a hash representing media file attributes
+    #
+    # @return [Hash] a hash representing media file attributes
     def to_params
       {:fingerprint => fingerprint}
     end
 
-    # Returns a unique identifier for the file
+    # Returns a unique identifier, or fingerprint, for the file
+    # The identifier will be different if the file's contents change.
+    #
+    # @return [Digest::MD5] the unique fingerprint
     def fingerprint
       Digest::MD5.file(@path)
     end
