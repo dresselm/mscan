@@ -5,11 +5,9 @@ module Mscan #nodoc
   # the instrumentation data in metadata files
   class Scanner
 
-    # Scans directories and instruments valid media files
+    # Scans the  directory for media files.
     def scan
-      # find_directories_to_instrument.each do |dir_path|
-      #   instrument_directory(dir_path)
-      # end
+
     end
 
     def instrument_directory(dir_path)

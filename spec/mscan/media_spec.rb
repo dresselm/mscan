@@ -18,12 +18,6 @@ describe Mscan::Media do
   end
 
   context 'to_params' do
-    it 'should include the fingerprint' do
-      media = Mscan::Media.new('.')
-      media.should_receive(:fingerprint).and_return('fingerprint')
-      media.to_params.should include(:fingerprint => 'fingerprint')
-    end
-
     it 'should include the created_at' do
       media = Mscan::Media.new('.')
       media.stub(:fingerprint).and_return('fingerprint')
@@ -43,6 +37,16 @@ describe Mscan::Media do
       media.stub(:fingerprint).and_return('fingerprint')
       media.should_receive(:size).and_return('size')
       media.to_params.should include(:size => 'size')
+    end
+
+    it 'should support optional params' do
+      media = Mscan::Media.new('.')
+      media.should_receive(:fingerprint).and_return('fingerprint')
+      media.should_receive(:absolute_path).and_return('absolute_path')
+
+      params = media.to_params(:fingerprint, :absolute_path)
+      params.should include(:fingerprint => 'fingerprint')
+      params.should include(:absolute_path => 'absolute_path')
     end
   end
 

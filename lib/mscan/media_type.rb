@@ -3,9 +3,9 @@ module Mscan #nodoc
   module MediaType
     extend self
 
-    class MediaTypeError < ::Exception; end #nodoc
-    class NoExtension < MediaTypeError; end
-    class UnknownType < MediaTypeError; end
+    class MediaTypeError < RuntimeError; end #nodoc
+    class NoExtensionError < MediaTypeError; end
+    class UnknownTypeError < MediaTypeError; end
 
     # PHOTO FORMATS
     PNG  = 'png'
@@ -20,6 +20,9 @@ module Mscan #nodoc
     WMV  = 'wmv'
     FLV  = 'flv'
 
+    # AUDIO FORMATS
+    MP3  = 'mp3'
+
     # ARCHIVE FORMATS
     ZIP  = 'zip'
     TAR  = 'tar'
@@ -29,7 +32,7 @@ module Mscan #nodoc
     #
     # @return [Array] all supported media types
     def all
-      ([] << photo << video).flatten
+      ([] << photo << video << audio).flatten
     end
 
     # All supported photo types
@@ -46,6 +49,13 @@ module Mscan #nodoc
       [MOV, MP4, AVI, WMV]
     end
 
+    # All supported audio types
+    #
+    # @return [Array] all supported audio types
+    def audio
+      [MP3]
+    end
+
     # All supported archive types
     #
     # @return [Array] all supported archive types
@@ -53,29 +63,41 @@ module Mscan #nodoc
       [ZIP, TAR, GZIP]
     end
 
-    # Returns true if the file type is one of the
+    # Returns true if the file is one of the
     # supported media types
     #
-    # @param [String, Symbol] file_type
-    # @return [Boolean] all supported media types
-    def valid?(type)
-      type = type.to_s.downcase
-      all.include?(type)
+    # @param [String] file_name
+    # @return [Boolean] true if the file is a valid type
+    def valid?(file_name)
+      all.include?(raw_type(file_name))
     end
 
-    # Returns the {MediaType} for a given file name
+    # Returns the {MediaType} for a given file name.  If
+    # the file is not a supported media type, return nil.
     #
     # @param [String] file_name
     # @return [MediaType] the file type
     def for_file_name(file_name)
-      raise NoExtension, "No extension for #{file_name}" unless file_name.include?('.')
+      raw_type = raw_type(file_name)
 
-      raw_type = file_name.split('.').last.downcase
-      media_type = all.detect {|mtype| mtype == raw_type}
-      raise UnknownType, "Unable to determine the type for #{file_name}" if media_type.nil?
+      return nil unless raw_type && valid?(file_name)
 
-      media_type
+      all.detect { |mtype| mtype == raw_type }
     end
+
+    # Strips the file type from the file name.
+    # Returns nil if the file name does not
+    # have an extension
+    #
+    # @param [String] file_name
+    # @return [String] the raw file type
+    def raw_type(file_name)
+      dot_index = file_name.index('.')
+      return nil unless dot_index && dot_index > 0
+
+      file_name.split('.').last.downcase
+    end
+    private_class_method :raw_type
 
   end
 end

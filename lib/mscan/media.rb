@@ -60,13 +60,19 @@ module Mscan #nodoc
     # Returns a hash representing various media file attributes
     #
     # @return [Hash] a hash representing media file attributes
-    def to_params
-      {
-        :fingerprint => fingerprint,
+    def to_params(*params)
+      base_params = {
         :created_at  => created_at,
         :modified_at => modified_at,
         :size        => size
       }
+
+      optional_params = {}
+      params.each do |param|
+        optional_params[param.to_sym] = send(param)
+      end
+
+      base_params.merge(optional_params)
     end
 
     # Returns a unique identifier, or fingerprint, for the file
@@ -75,6 +81,11 @@ module Mscan #nodoc
     # @return [Digest::MD5] the unique fingerprint
     def fingerprint
       Digest::MD5.file(path)
+    end
+
+    # TODO document and test
+    def self.valid?(file_path)
+      File.file?(file_path) && MediaType.valid?(entry)
     end
 
   end
