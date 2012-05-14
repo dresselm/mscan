@@ -9,12 +9,12 @@ describe Mscan::Media do
 
   it 'should expose the file name' do
     path = 'spec/media/photos/pngs/file1.png'
-    Mscan::Media.new(path).file_name.should == 'file1.png'
+    Mscan::Media.new(path).name.should == 'file1.png'
   end
 
   it 'should expose the file type' do
     path = 'spec/media/photos/pngs/file1.png'
-    Mscan::Media.new(path).file_type.should == 'png'
+    Mscan::Media.new(path).type.should == Mscan::MediaType::PNG
   end
 
   context 'to_params' do
