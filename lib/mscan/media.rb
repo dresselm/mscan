@@ -36,24 +36,34 @@ module Mscan #nodoc
       Mscan::MediaType.for_file_name(name)
     end
 
+    # Returns the file size in bytes
+    #
+    # @return [Integer] the file size
     def size
       @file.size
     end
 
+    # Returns the time the file was last modified
+    #
+    # @return [Time] the modification time
     def modified_at
       @file.mtime
     end
 
+    # Returns the time the file was created
+    #
+    # @return [Time] the creation time
     def created_at
       @file.ctime
     end
 
-    # Returns a hash representing media file attributes
+    # Returns a hash representing various media file attributes
     #
     # @return [Hash] a hash representing media file attributes
     def to_params
       {
         :fingerprint => fingerprint,
+        :created_at  => created_at,
         :modified_at => modified_at,
         :size        => size
       }

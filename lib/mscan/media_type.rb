@@ -1,8 +1,9 @@
-module Mscan
+module Mscan #nodoc
+
   module MediaType
     extend self
 
-    class MediaTypeError < ::Exception; end
+    class MediaTypeError < ::Exception; end #nodoc
     class NoExtension < MediaTypeError; end
     class UnknownType < MediaTypeError; end
 
