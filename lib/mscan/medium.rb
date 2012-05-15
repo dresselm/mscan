@@ -1,8 +1,8 @@
 require 'digest/md5'
 
 module Mscan #nodoc
-  # Media file wrapper
-  class Media
+  # Medium file wrapper
+  class Medium
 
     def initialize(file_path)
       @file = File.new(file_path)
@@ -31,9 +31,9 @@ module Mscan #nodoc
 
     # Returns the file type
     #
-    # @return [Mscan::MediaType] the media type
+    # @return [Mscan::MediumType] the media type
     def type
-      Mscan::MediaType.for_file_name(name)
+      Mscan::MediumType.for_file_name(name)
     end
 
     # Returns the file size in bytes
@@ -84,12 +84,12 @@ module Mscan #nodoc
     end
 
     # Returns true if the path represents a file and
-    # a valid {MediaType}
+    # a valid {MediumType}
     #
     # @param [String] file_path
     # @return [Boolean] returns true if the path represents a valid media file
     def self.valid?(file_path)
-      File.file?(file_path) && MediaType.valid?(file_path)
+      File.file?(file_path) && MediumType.valid?(file_path)
     end
 
   end
