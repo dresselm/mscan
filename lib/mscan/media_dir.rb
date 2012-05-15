@@ -16,7 +16,6 @@ module Mscan #nodoc
     # this {MediaDir}
     #
     # @return [Array] files and directories in this {MediaDir}
-    # TODO come up with a better name
     def entities
       @entities ||= Dir.entries(@path)
     end
