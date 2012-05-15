@@ -74,4 +74,26 @@ describe Mscan::Media do
     end
   end
 
+  context 'valid?' do
+    let(:pngs_path) { 'spec/media/photos/pngs' }
+
+    it 'should return false for directories' do
+      Mscan::Media.valid?(pngs_path).should be_false
+    end
+
+    it 'should return false for an invalid MediaType' do
+      expected_file_path = "#{pngs_path}/file1.png"
+      Mscan::MediaType.should_receive(:valid?).with(expected_file_path).and_return(false)
+
+      Mscan::Media.valid?(expected_file_path).should be_false
+    end
+
+    it 'should return true for a valid MediaType file' do
+      expected_file_path = "#{pngs_path}/file1.png"
+      Mscan::MediaType.should_receive(:valid?).with(expected_file_path).and_return(true)
+
+      Mscan::Media.valid?(expected_file_path).should be_true
+    end
+  end
+
 end

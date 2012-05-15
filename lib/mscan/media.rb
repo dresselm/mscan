@@ -83,9 +83,13 @@ module Mscan #nodoc
       Digest::MD5.file(path)
     end
 
-    # TODO document and test
+    # Returns true if the path represents a file and
+    # a valid {MediaType}
+    #
+    # @param [String] file_path
+    # @return [Boolean] returns true if the path represents a valid media file
     def self.valid?(file_path)
-      File.file?(file_path) && MediaType.valid?(entry)
+      File.file?(file_path) && MediaType.valid?(file_path)
     end
 
   end
