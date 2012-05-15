@@ -7,7 +7,10 @@ describe Mscan::MediaDir do
   end
 
   context 'entities' do
-    it 'should return all files and directories within the given directory'
+    it 'should return all files and directories within the given directory' do
+      md = Mscan::MediaDir.new('spec/media')
+      md.entities.should =~ [".", "..", "audio", "photo", "unknown.medium", "video"]
+    end
   end
 
   context 'media' do
@@ -30,10 +33,11 @@ describe Mscan::MediaDir do
 
       media_dirs.should_not be_empty
       media_dirs.map(&:path).should =~ ['spec/media',
-                                        'spec/media/photos',
-                                        'spec/media/photos/jpgs',
-                                        'spec/media/photos/pngs',
-                                        'spec/media/videos']
+                                        'spec/media/photo',
+                                        'spec/media/photo/jpgs',
+                                        'spec/media/photo/pngs',
+                                        'spec/media/video',
+                                        'spec/media/audio']
     end
   end
 

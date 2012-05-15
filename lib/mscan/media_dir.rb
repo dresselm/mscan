@@ -27,8 +27,8 @@ module Mscan #nodoc
       media = []
       entities.each do |entity|
         entity_path = "#{path}/#{entity}"
-        next unless Media.valid?(entity_path)
-        media << Media.new(entity_path)
+        next unless Medium.valid?(entity_path)
+        media << Medium.new(entity_path)
       end
       media
     end
@@ -36,8 +36,8 @@ module Mscan #nodoc
 
     def to_params(*args)
       ordered_hash = {}
-      medias.sort_by(&:name).each do |media|
-        ordered_hash[media.name] = media.to_params(*args)
+      media.sort_by(&:name).each do |medium|
+        ordered_hash[medium.name] = medium.to_params(*args)
       end
       ordered_hash
     end

@@ -3,17 +3,17 @@ require 'spec_helper'
 describe Mscan::Medium do
 
   it 'should expose the full path' do
-    path = 'spec/media/photos/pngs/file1.png'
+    path = 'spec/media/photo/pngs/file1.png'
     Mscan::Medium.new(path).path.should == path
   end
 
   it 'should expose the file name' do
-    path = 'spec/media/photos/pngs/file1.png'
+    path = 'spec/media/photo/pngs/file1.png'
     Mscan::Medium.new(path).name.should == 'file1.png'
   end
 
   it 'should expose the file type' do
-    path = 'spec/media/photos/pngs/file1.png'
+    path = 'spec/media/photo/pngs/file1.png'
     Mscan::Medium.new(path).type.should == Mscan::MediumType::PNG
   end
 
@@ -51,7 +51,7 @@ describe Mscan::Medium do
   end
 
   context 'fingerprint' do
-    let(:pngs_path) { 'spec/media/photos/pngs' }
+    let(:pngs_path) { 'spec/media/photo/pngs' }
     let(:file1) { Mscan::Medium.new("#{pngs_path}/file1.png") }
 
     it 'should return the same value for the same file' do
@@ -75,7 +75,7 @@ describe Mscan::Medium do
   end
 
   context 'valid?' do
-    let(:pngs_path) { 'spec/media/photos/pngs' }
+    let(:pngs_path) { 'spec/media/photo/pngs' }
 
     it 'should return false for directories' do
       Mscan::Medium.valid?(pngs_path).should be_false
