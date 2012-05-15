@@ -7,12 +7,14 @@ module Mscan #nodoc
 
     # Scans the  directory for media files.
     def scan
+      media_dirs = Settings.scan_directories.map do |root_dir|
+        MediaDir.find_media_dirs(root_dir)
+      end.flatten
 
+      media_dirs.each do |media_dir|
+        save_meta_data(media_dir.path, media_dir.to_params(:fingerprint))
+      end
     end
-
-    def instrument_directory(dir_path)
-    end
-    private :instrument_directory
 
     def save_meta_data(path, meta_data)
       Metadata.write(path, meta_data)

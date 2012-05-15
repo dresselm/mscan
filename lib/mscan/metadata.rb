@@ -1,4 +1,5 @@
 require 'yajl'
+require 'fileutils'
 
 module Mscan #nodoc
   # Utility wrapper for reading and writing metadata files
