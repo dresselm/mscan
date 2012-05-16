@@ -2,9 +2,14 @@ require 'spec_helper'
 
 describe Mscan::Medium do
 
-  it 'should expose the full path' do
+  it 'should expose the relative path' do
     path = 'spec/media/photo/pngs/file1.png'
     Mscan::Medium.new(path).path.should == path
+  end
+
+  it 'should expose the absolute path' do
+    path = 'spec/media/photo/pngs/file1.png'
+    Mscan::Medium.new(path).absolute_path.should == "#{Dir.pwd}/#{path}"
   end
 
   it 'should expose the file name' do
@@ -20,21 +25,18 @@ describe Mscan::Medium do
   context 'to_params' do
     it 'should include the created_at' do
       media = Mscan::Medium.new('.')
-      media.stub(:fingerprint).and_return('fingerprint')
       media.should_receive(:created_at).and_return('created_at')
       media.to_params.should include(:created_at => 'created_at')
     end
 
     it 'should include the modified_at' do
       media = Mscan::Medium.new('.')
-      media.stub(:fingerprint).and_return('fingerprint')
       media.should_receive(:modified_at).and_return('modified_at')
       media.to_params.should include(:modified_at => 'modified_at')
     end
 
     it 'should include the size' do
       media = Mscan::Medium.new('.')
-      media.stub(:fingerprint).and_return('fingerprint')
       media.should_receive(:size).and_return('size')
       media.to_params.should include(:size => 'size')
     end
