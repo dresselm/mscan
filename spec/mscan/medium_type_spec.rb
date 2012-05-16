@@ -16,6 +16,16 @@ describe Mscan::MediumType do
     end
   end
 
+  describe "archive?" do
+    it 'should return true for an archive' do
+      Mscan::MediumType.archive?('some_file.tar').should be_true
+    end
+
+    it 'should return false for a non-archive' do
+      Mscan::MediumType.archive?('some_file.png').should be_false
+    end
+  end
+
   describe "for_file_name" do
     it 'should return nil if the file name does not contain a period' do
       Mscan::MediumType.for_file_name('blah').should be_nil

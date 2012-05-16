@@ -32,7 +32,7 @@ module Mscan #nodoc
     #
     # @return [Array] all supported media types
     def all
-      ([] << photo << video << audio).flatten
+      ([] << photo << video << audio << archive).flatten
     end
 
     # All supported photo types
@@ -70,6 +70,14 @@ module Mscan #nodoc
     # @return [Boolean] true if the file is a valid type
     def valid?(file_name)
       all.include?(raw_type(file_name))
+    end
+
+    # Returns true if the file is an archive
+    #
+    # @param [String] file_name
+    # @return [Boolean] true if the file is an archive
+    def archive?(file_name)
+      archive.include?(raw_type(file_name))
     end
 
     # Returns the {MediumType} for a given file name.  If
