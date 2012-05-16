@@ -9,7 +9,7 @@ describe Mscan::MediaDir do
   context 'entities' do
     it 'should return all files and directories within the given directory' do
       md = Mscan::MediaDir.new('spec/media')
-      md.entities.should =~ [".", "..", "audio", "photo", "unknown.medium", "video"]
+      md.entities.should =~ [".", "..", "audio", "photo", "unknown.medium", "video", "archive.zip"]
     end
   end
 
@@ -18,7 +18,7 @@ describe Mscan::MediaDir do
   end
 
   context 'to_params' do
-    it 'should test something'
+    it 'should return params'
   end
 
   context 'find_media_dirs' do

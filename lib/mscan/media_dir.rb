@@ -28,11 +28,14 @@ module Mscan #nodoc
       entities.each do |entity|
         entity_path = "#{path}/#{entity}"
         next unless Medium.valid?(entity_path)
-        media << Medium.new(entity_path)
+        if Medium.is_archive?(entity_path)
+          media << ArchiveMedium.new(entity_path)
+        else
+          media << Medium.new(entity_path)
+        end
       end
       media
     end
-
 
     def to_params(*args)
       ordered_hash = {}
