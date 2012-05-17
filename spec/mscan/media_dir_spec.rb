@@ -23,9 +23,9 @@ describe Mscan::MediaDir do
       md = Mscan::MediaDir.new('spec/media/photo/pngs')
       media = md.media
       media.should_not be_empty
-      media.each do |medium|
-        medium.class.should == Mscan::Medium
-        medium.type.should  == Mscan::MediumType::PNG
+      media.each do |media_file|
+        media_file.class.should == Mscan::MediaFile
+        media_file.type.should  == Mscan::MediaFileType::PNG
       end
     end
   end

@@ -1,5 +1,5 @@
 module Mscan
-  class ArchiveMedium < Medium
+  class ArchiveMediaFile < MediaFile
 
     # Override to_params to support the complexities
     # of an archive file

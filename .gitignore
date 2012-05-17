@@ -13,3 +13,5 @@ pkg
 rdoc
 spec/reports
 tmp
+
+scanner.legacy.rb

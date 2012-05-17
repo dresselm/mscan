@@ -1,11 +1,11 @@
 module Mscan #nodoc
 
-  module MediumType
+  module MediaFileType
     extend self
 
-    class MediumTypeError < RuntimeError; end #nodoc
-    class NoExtensionError < MediumTypeError; end
-    class UnknownTypeError < MediumTypeError; end
+    class MediaFileTypeError < RuntimeError; end #nodoc
+    class NoExtensionError < MediaFileTypeError; end
+    class UnknownTypeError < MediaFileTypeError; end
 
     # PHOTO FORMATS
     PNG  = 'png'
@@ -80,11 +80,11 @@ module Mscan #nodoc
       archive.include?(raw_type(file_name))
     end
 
-    # Returns the {MediumType} for a given file name.  If
+    # Returns the {MediaFileType} for a given file name.  If
     # the file is not a supported media type, return nil.
     #
     # @param [String] file_name
-    # @return [MediumType] the file type
+    # @return [MediaFileType] the file type
     def for_file_name(file_name)
       raw_type = raw_type(file_name)
 
