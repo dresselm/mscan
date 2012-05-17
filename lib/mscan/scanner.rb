@@ -1,5 +1,3 @@
-require 'find'
-
 module Mscan #nodoc
   # Scans directories, instruments media files and stores
   # the instrumentation data in metadata files
@@ -12,14 +10,9 @@ module Mscan #nodoc
       end.flatten
 
       media_dirs.each do |media_dir|
-        save_meta_data(media_dir.path, media_dir.to_params(:fingerprint))
+        Metadata.write(media_dir.path, media_dir.to_params(:fingerprint))
       end
     end
-
-    def save_meta_data(path, meta_data)
-      Metadata.write(path, meta_data)
-    end
-    private :save_meta_data
 
   end
 end
