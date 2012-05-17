@@ -9,12 +9,25 @@ describe Mscan::MediaDir do
   context 'entities' do
     it 'should return all files and directories within the given directory' do
       md = Mscan::MediaDir.new('spec/media')
-      md.entities.should =~ [".", "..", "audio", "photo", "unknown.medium", "video"]
+      md.entities.should =~ [".", "..", "empty", "audio", "photo", "unknown.medium", "video"]
     end
   end
 
   context 'media' do
-    it 'should return all valid Media files for the given directory'
+    it 'should return empty if there is no valid Media in the directory' do
+      md = Mscan::MediaDir.new('spec/media/empty')
+      md.media.should be_empty
+    end
+
+    it 'should return all valid Media for the given directory' do
+      md = Mscan::MediaDir.new('spec/media/photo/pngs')
+      media = md.media
+      media.should_not be_empty
+      media.each do |medium|
+        medium.class.should == Mscan::Medium
+        medium.type.should  == Mscan::MediumType::PNG
+      end
+    end
   end
 
   context 'to_params' do
@@ -33,6 +46,7 @@ describe Mscan::MediaDir do
 
       media_dirs.should_not be_empty
       media_dirs.map(&:path).should =~ ['spec/media',
+                                        'spec/media/empty',
                                         'spec/media/photo',
                                         'spec/media/photo/jpgs',
                                         'spec/media/photo/pngs',
