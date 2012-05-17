@@ -3,8 +3,8 @@ require 'fileutils'
 
 module Mscan #nodoc
   # Utility wrapper for reading and writing metadata files
-  class Metadata
-    # Metadata file name
+  class MetaFile
+    # MetaFile file name
     FILE_NAME = 'meta.mscan'
 
     class Error < RuntimeError; end #nodoc
@@ -18,7 +18,7 @@ module Mscan #nodoc
     def self.write(path, content={})
       # Ensure that the directory exists
       FileUtils.mkdir_p(path)
-      File.open(meta_data_file(path), 'w+') do |f|
+      File.open(meta_file(path), 'w+') do |f|
         f.puts(Yajl::Encoder.encode(content))
       end
     end
@@ -28,13 +28,13 @@ module Mscan #nodoc
     # @param  [String] the full path to the metadata file
     # @return [Object] the parsed metadata content
     def self.read(path)
-      meta_data_file_path = meta_data_file(path)
+      meta_file_path = meta_file(path)
 
-      unless File.exists?(meta_data_file_path)
-        raise InvalidPathError, "#{meta_data_file_path} is not a valid file path"
+      unless File.exists?(meta_file_path)
+        raise InvalidPathError, "#{meta_file_path} is not a valid file path"
       end
 
-      File.open(meta_data_file_path, 'r') do |f|
+      File.open(meta_file_path, 'r') do |f|
         Yajl::Parser.parse(f)
       end
     end
@@ -43,9 +43,9 @@ module Mscan #nodoc
     #
     # @param [String] the full path to the metadata file
     # @return [String] the full path to the metadata file including the file name
-    def self.meta_data_file(path)
+    def self.meta_file(path)
       "#{path}/#{FILE_NAME}"
     end
-    private_class_method :meta_data_file
+    private_class_method :meta_file
   end
 end
