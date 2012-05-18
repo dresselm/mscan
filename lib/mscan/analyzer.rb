@@ -10,7 +10,7 @@ module Mscan #nodoc
 
       meta_data_to_analyze = media_dirs.map do |media_dir|
         puts "Prepend #{media_dir.path} to each key"
-        ScanFile.read(media_dir.path)
+        Mscan::Meta::ScanFile.read(media_dir.path)
       end
 
       # TODO Write the basic analysis to a timestamped file that can be consumed by the reporter
