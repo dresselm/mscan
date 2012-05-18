@@ -2,8 +2,6 @@ module Mscan #nodoc
   # Analyzes metadata files and prepares information for reporting
   class Analyzer
 
-    ANALYSIS_OUTPUT_PATH = 'analysis'
-
     def analyze
       # TODO DRY same as scan
       media_dirs = Settings.scan_directories.map do |root_dir|
@@ -15,10 +13,12 @@ module Mscan #nodoc
         Mscan::Meta::ScanFile.read(media_dir.path)
       end
 
-      # TODO transform the meta_data into fingerprint => [MediaFile1, MediaFile2, etc]
-      # TODO analyze the meta_data_to_analyze object and output to analysis file
-      Mscan::Meta::AnalysisFile.write(ANALYSIS_OUTPUT_PATH, meta_data_to_analyze, true)
+      Mscan::Meta::AnalysisFile.new(transform_meta_data(meta_data_to_analyze)).write
+    end
 
+    # TODO transform the meta_data into fingerprint => [MediaFile1, MediaFile2, etc]
+    def transform_meta_data(meta_data)
+      meta_data
     end
 
   end
