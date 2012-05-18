@@ -50,21 +50,12 @@ module Mscan #nodoc
       @file.mtime
     end
 
-    # Returns the time the file was created
-    #
-    # @return [Time] the creation time
-    # TODO this is not create_at, this is change time
-    def created_at
-      @file.ctime
-    end
-
     # Returns a hash representing various media file attributes
     #
     # @return [Hash] a hash representing media file attributes
     def to_params(*params)
       # TODO compare integer times with Time.at(i_val)
       base_params = {
-        :created_at  => created_at.utc.to_i,
         :modified_at => modified_at.utc.to_i,
         :size        => size
       }

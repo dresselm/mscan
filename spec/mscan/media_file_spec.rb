@@ -23,16 +23,11 @@ describe Mscan::MediaFile do
   end
 
   context 'to_params' do
-    it 'should include the created_at' do
-      media = Mscan::MediaFile.new('.')
-      media.should_receive(:created_at).and_return('created_at')
-      media.to_params.should include(:created_at => 'created_at')
-    end
-
     it 'should include the modified_at' do
       media = Mscan::MediaFile.new('.')
-      media.should_receive(:modified_at).and_return('modified_at')
-      media.to_params.should include(:modified_at => 'modified_at')
+      now = Time.now
+      media.should_receive(:modified_at).and_return(now)
+      media.to_params.should include(:modified_at => now.to_i)
     end
 
     it 'should include the size' do
