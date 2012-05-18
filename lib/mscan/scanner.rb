@@ -10,7 +10,7 @@ module Mscan #nodoc
       end.flatten
 
       media_dirs.each do |media_dir|
-        MetaFile.write(media_dir.path, media_dir.to_params(:fingerprint))
+        ScanFile.write(media_dir.path, media_dir.to_params(:fingerprint))
       end
     end
 

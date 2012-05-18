@@ -5,11 +5,14 @@ require 'mscan/profiler'
 require 'mscan/media_file'
 require 'mscan/media_dir'
 require 'mscan/meta_file'
+require 'mscan/analysis_file'
+require 'mscan/scan_file'
 require 'mscan/scanner'
 require 'mscan/analyzer'
 require 'mscan/reporter'
 
 require 'find'
+require 'active_support'
 
 Mscan::Settings.load!
 

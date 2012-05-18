@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = Mscan::VERSION
 
   gem.add_runtime_dependency(%q<yajl-ruby>)
+  gem.add_runtime_dependency(%q<active_support>)
 
   gem.add_development_dependency(%q<fakefs>)
   gem.add_development_dependency(%q<redcarpet>)
