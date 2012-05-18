@@ -21,10 +21,10 @@ module Mscan #nodoc
       #
       # @param [String] the full path to the metadata file
       # @param [MediaDir] the {MediaDir} whose contents will be written to the file
-      def write(path, content={})
+      def write(path, content={}, timestamp=false)
         # Ensure that the directory exists
         FileUtils.mkdir_p(path)
-        File.open(path_to_meta_file(path), 'w+') do |f|
+        File.open(path_to_meta_file(path, timestamp), 'w+') do |f|
           f.puts(Yajl::Encoder.encode(content))
         end
       end
@@ -49,8 +49,9 @@ module Mscan #nodoc
       #
       # @param [String] the full path to the metadata file
       # @return [String] the full path to the metadata file including the file name
-      def path_to_meta_file(path)
+      def path_to_meta_file(path, timestamp=false)
         file_name = self.name.demodulize.gsub(/File/,'').underscore
+        file_name = "#{Time.now.to_i}_#{file_name}" if timestamp
         "#{path}/#{file_name}.#{FILE_EXTENSION}"
       end
     end

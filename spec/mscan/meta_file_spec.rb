@@ -1,4 +1,4 @@
-require 'spec_helper'
+  require 'spec_helper'
 require 'fakefs/spec_helpers'
 
 module Mscan
@@ -9,6 +9,15 @@ end
 
 describe Mscan::MetaFile do
   include FakeFS::SpecHelpers
+
+  before do
+    @now = Time.now
+    Timecop.freeze(@now)
+  end
+
+  after do
+    Timecop.return
+  end
 
   context 'write' do
     it "should write the content to the metadata file" do
@@ -29,6 +38,12 @@ describe Mscan::MetaFile do
 
       actual_string = File.open('some_path/dummy_meta.mscan', "rb").read
       actual_string.should == "{}\n"
+    end
+
+    it 'should support timestamps' do
+      Mscan::DummyMetaFile.write('some_path', nil, true)
+
+      File.exist?("some_path/#{@now.to_i}_dummy_meta.mscan").should be_true
     end
   end
 
@@ -55,4 +70,25 @@ describe Mscan::MetaFile do
       }.to raise_error(Mscan::DummyMetaFile::InvalidPathError)
     end
   end
+
+  context 'path_to_meta_file' do
+    it 'should prepend the path argument' do
+      Mscan::DummyMetaFile.path_to_meta_file('some_path').should =~ /^some_path\//
+    end
+
+    it 'should automatically construct the file name based on including class' do
+      Mscan::DummyMetaFile.path_to_meta_file('some_path').should =~ /\/dummy_meta\./
+    end
+
+    it 'should apply the mscan extension' do
+      Mscan::DummyMetaFile.path_to_meta_file('some_path').should =~ /\.mscan?/
+    end
+
+    it 'should prepend a timestamp to the file name' do
+      expected_time_stamp = @now.to_i
+      Mscan::DummyMetaFile.path_to_meta_file('some_path', true).should include("/#{expected_time_stamp}_")
+    end
+
+  end
+
 end
