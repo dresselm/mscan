@@ -8,17 +8,16 @@ module Mscan #nodoc
         MediaDir.find_media_dirs(root_dir)
       end.flatten
 
-      meta_data_to_analyze = media_dirs.map do |media_dir|
-        # TODO prepend the media_dir.path to each key
-        Mscan::Meta::ScanFile.read(media_dir.path)
+      meta_data_to_analyze = {}
+      media_dirs.each do |media_dir|
+        scan_dir = media_dir.path
+        prepended_keys = Mscan::Meta::ScanFile.read(scan_dir).map do |k, v|
+          ["#{scan_dir}/#{k}", v]
+        end
+        meta_data_to_analyze.merge!(Hash[prepended_keys])
       end
 
-      Mscan::Meta::AnalysisFile.new(transform_meta_data(meta_data_to_analyze)).write
-    end
-
-    # TODO transform the meta_data into fingerprint => [MediaFile1, MediaFile2, etc]
-    def transform_meta_data(meta_data)
-      meta_data
+      Mscan::Meta::AnalysisFile.new(meta_data_to_analyze).write
     end
 
   end
