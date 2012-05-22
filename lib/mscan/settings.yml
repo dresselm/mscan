@@ -1,5 +1,5 @@
 # general:
-verbose: false
+verbose: true
 
 # scanner:
 scan_directories: [/tmp/scan]

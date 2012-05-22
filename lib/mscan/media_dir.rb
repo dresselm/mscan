@@ -13,16 +13,16 @@ module Mscan #nodoc
     end
 
     # Returns a list of all files and directories in
-    # this {MediaDir}
+    # this {MediaDir directory}
     #
-    # @return [Array] files and directories in this {MediaDir}
+    # @return [Array] files and directories in this {MediaDir directory}
     def entities
       @entities ||= Dir.entries(@path)
     end
 
-    # Returns all {Media} files in this {MediaDir}
+    # Returns all {MediaFile files} in this {MediaDir directory}
     #
-    # @return [Array] all {Media} files in this {MediaDir}
+    # @return [Array] all {MediaFile files} in this {MediaDir directory}
     def media
       media = []
       entities.each do |entity|
@@ -33,7 +33,11 @@ module Mscan #nodoc
       media
     end
 
-
+    # Returns a parameter hash representing the {MediaFile files} within
+    # the {MediaDir current directory}. The hash is ordered by {MediaFile file} name.
+    #
+    # @param [Array] args optional arguments to pass through to each {MediaFile file}
+    # @return [Object] parameter hash
     def to_params(*args)
       ordered_hash = {}
       media.sort_by(&:name).each do |media_file|
@@ -42,12 +46,23 @@ module Mscan #nodoc
       ordered_hash
     end
 
-    # Returns a list of all {Mscan::MediaDir} objects under a given path
+    # Returns a list of all {MediaDir media directories} for the configured
+    # scan directories. Inclusive of each {MediaDir scan directory}.
     #
-    # @param [String] root_path the root path
-    # @return [Array] an array of {Mscan::MediaDir} objects
+    # @return [Array] an array of {MediaDir directories}
+    def self.find_all_media_dirs
+      Settings.scan_directories.map do |root_dir|
+        find_media_dirs(root_dir)
+      end.flatten
+    end
+
+    # Returns a list of the entire {MediaDir directory} tree for the given path.
+    # Inclusive of the root directory.
+    #
+    # @param [String] root_path
+    # @return [Array] an array of {MediaDir directories}
     def self.find_media_dirs(root_path)
-      raise MediaDir::InvalidPathError, "Unable to find media directories.  #{root_path} does not exist!" unless File.directory?(root_path)
+      raise InvalidPathError, "Unable to find media directories.  #{root_path} does not exist!" unless File.directory?(root_path)
 
       media_directories = []
       Find.find(root_path) do |path|
