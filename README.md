@@ -1,3 +1,5 @@
+ [![Build Status](https://secure.travis-ci.org/dresselm/mscan.png)](http://travis-ci.org/dresselm/mscan)
+
 # Mscan
 
 TODO: Write a gem description
