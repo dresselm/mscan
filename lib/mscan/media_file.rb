@@ -5,14 +5,14 @@ module Mscan #nodoc
   class MediaFile
 
     def initialize(file_path)
-      @file_path = file_path
+      @path = file_path
     end
 
     # Returns the relative file path
     #
     # @return [String] the relative file path
     def path
-      @file_path
+      @path
     end
 
     # Returns the absolute file path

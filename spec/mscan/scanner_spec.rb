@@ -10,6 +10,11 @@ describe Mscan::Scanner do
 
       Mscan::Scanner.scan
     end
+
+    it 'should scan' do
+      # Mscan::Scanner.scan
+    end
+
   end
 
 end

@@ -17,22 +17,18 @@ module Mscan #nodoc
           media_dir_path = media_dir.path
           media_dir_data = media_dir.to_params(:fingerprint)
           # Save the scan meta file in the originating directory
-          save("#{media_dir_path}/meta.mscan", media_dir_data)
+          save("#{media_dir_path}/#{META_FILE_NAME}", media_dir_data)
           # Add the scan meta data to the aggregate
           aggregate_scan_data.merge!(prepend_path_to_keys(media_dir_path, media_dir_data))
         end
         # Save the aggregate scan data to the analysis directory
-        save_aggregate(aggregate_scan_data)
+        save_aggregate_scan(aggregate_scan_data)
       end
     end
 
-    def self.save_aggregate(aggregate_content)
-      full_path = "#{Mscan::Store::ANALYSIS_OUTPUT_DIR}/#{Time.now.to_i}_scan.mscan"
+    def self.save_aggregate_scan(aggregate_content)
+      full_path = "#{ANALYSIS_OUTPUT_DIR}/#{timestamp(AGGREGATE_SCAN_FILE_NAME)}"
       save(full_path, aggregate_content)
-    end
-
-    def self.load_aggregate
-      load_most_recent(Mscan::Store::ANALYSIS_OUTPUT_DIR)
     end
 
     # Prepend the full {MediaDir directory} path to each filename key.

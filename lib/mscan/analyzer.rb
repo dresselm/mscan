@@ -3,11 +3,9 @@ module Mscan #nodoc
   class Analyzer
     include Store
 
-    ANALYSIS_OUTPUT_DIR = 'analysis'
-
     def self.analyze
       Profiler.measure('Analyzing') do
-        raw_meta_data = load_most_recent("#{Mscan::Store::ANALYSIS_OUTPUT_DIR}/scan.mscan")
+        raw_meta_data = load_most_recent("#{ANALYSIS_OUTPUT_DIR}/#{AGGREGATE_SCAN_FILE_NAME}")
 
         # Pass raw data through analysis
         Mscan::Analysis::Redundancy.new(raw_meta_data).analyze
@@ -15,7 +13,7 @@ module Mscan #nodoc
     end
 
     def self.save_analysis(analyzer)
-      save("#{Mscan::Store::ANALYSIS_OUTPUT_DIR}/#{Time.now.to_i}_analysis.mscan", analyzer.to_params)
+      save("#{ANALYSIS_OUTPUT_DIR}/#{timestamp(ANALYSIS_FILE_NAME)}", analyzer.to_params)
     end
 
     def self.total_size(media_files)

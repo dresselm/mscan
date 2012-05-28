@@ -18,7 +18,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency(%q<yajl-ruby>)
   gem.add_runtime_dependency(%q<active_support>)
 
-  gem.add_development_dependency(%q<redcarpet>)
   gem.add_development_dependency(%q<simplecov>)
   gem.add_development_dependency(%q<yard>)
 end

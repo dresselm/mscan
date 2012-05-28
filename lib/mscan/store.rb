@@ -6,13 +6,10 @@ module Mscan #nodoc
   # Utility wrapper for reading and writing meta files
   module Store
 
-    # TODO integrate from Mscan::Analysis::MetaFile
-    ANALYSIS_OUTPUT_DIR = 'analysis'
-    # def self.save(analyzer)
-    #   write(ANALYSIS_OUTPUT_DIR, analyzer.to_params, true)
-    # end
-
-    FILE_EXTENSION = 'mscan'
+    ANALYSIS_OUTPUT_DIR      = 'analysis'
+    META_FILE_NAME           = 'meta.mscan'
+    AGGREGATE_SCAN_FILE_NAME = 'scan.mscan'
+    ANALYSIS_FILE_NAME       = 'analysis.mscan'
 
     def self.included(base)
       base.extend(ClassMethods)
@@ -50,6 +47,10 @@ module Mscan #nodoc
         # TODO improve this once the timestamps have been ironed out
         most_recent_path = Dir.glob("#{dir_name}/*_#{file_name}").last || Dir.glob("#{dir_name}/*#{file_name}").last
         parse(most_recent_path)
+      end
+
+      def timestamp(file_name)
+        "#{Time.now.to_i}_#{file_name}"
       end
 
       def parse(full_path)
