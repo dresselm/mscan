@@ -15,4 +15,5 @@ spec/reports
 tmp
 
 analysis
+!lib/mscan/analysis
 scanner.legacy.rb

@@ -8,7 +8,7 @@ describe Mscan::Scanner do
       Mscan::Settings.should_receive(:scan_directories).and_return(expected_scan_directories)
       Mscan::MediaDir.should_receive(:find_media_dirs).with(expected_scan_directories.first).and_return([])
 
-      Mscan::Scanner.new.scan
+      Mscan::Scanner.scan
     end
   end
 

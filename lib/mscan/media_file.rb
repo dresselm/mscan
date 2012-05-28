@@ -5,14 +5,14 @@ module Mscan #nodoc
   class MediaFile
 
     def initialize(file_path)
-      @file = File.new(file_path)
+      @file_path = file_path
     end
 
     # Returns the relative file path
     #
     # @return [String] the relative file path
     def path
-      @path ||= @file.path
+      @file_path
     end
 
     # Returns the absolute file path
@@ -40,14 +40,14 @@ module Mscan #nodoc
     #
     # @return [Integer] the file size
     def size
-      @file.size
+      File.size(path)
     end
 
     # Returns the time the file was last modified
     #
     # @return [Time] the modification time
     def modified_at
-      @file.mtime
+      File.mtime(path)
     end
 
     # Returns a hash representing various media file attributes
