@@ -17,6 +17,10 @@ module Mscan #nodoc
       deep_merge!(@_settings, options)
     end
 
+    def scan_directories
+      source_directories + target_directories
+    end
+
     # nodoc
     def method_missing(name, *args, &block)
       # TODO need to fail if the name is unknown
@@ -35,7 +39,6 @@ module Mscan #nodoc
 
     # nodoc
     def load_settings
-      puts "loading settings file"
       # TODO pull in rails deep_symbolize
       YAML.load_file( build_settings_file_path )
     end

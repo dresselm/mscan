@@ -8,7 +8,7 @@ module Mscan #nodoc
         raw_meta_data = load_most_recent("#{ANALYSIS_OUTPUT_DIR}/#{AGGREGATE_SCAN_FILE_NAME}")
 
         # Pass raw data through analysis
-        Mscan::Analysis::Redundancy.new(raw_meta_data).analyze
+        save_analysis(Mscan::Analysis::Redundancy.analyze(raw_meta_data))
       end
     end
 

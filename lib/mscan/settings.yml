@@ -2,7 +2,8 @@
 verbose: true
 
 # scanner:
-scan_directories: [/tmp/scan]
+source_directories: [/Users/matt/tmp/scan]
+target_directories: []
 
 # analyzer:
 
