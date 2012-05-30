@@ -25,12 +25,12 @@ describe Mscan::Profiler do
       end
 
       it 'should print the name' do
-        $stdout.should_receive(:puts).with(/some name/)
+        Mscan::Profiler.logger.should_receive(:info).with(/some name/)
         Mscan::Profiler.measure('some name') { 2 + 2 }
       end
 
       it "should print 'the block'" do
-        $stdout.should_receive(:puts).with(/the block/)
+        Mscan::Profiler.logger.should_receive(:info).with(/the block/)
         Mscan::Profiler.measure { 2 + 2 }
       end
     end

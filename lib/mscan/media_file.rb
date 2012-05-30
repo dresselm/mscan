@@ -19,7 +19,7 @@ module Mscan #nodoc
     #
     # @return [String] the absolute file path
     def absolute_path
-      File.absolute_path(path)
+      File.expand_path(path)
     end
 
     # Returns the file name

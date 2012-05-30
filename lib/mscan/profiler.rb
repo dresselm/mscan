@@ -1,6 +1,12 @@
+require 'logger'
+
 module Mscan
   # Utility methods for tracking Mscan measurables
   class Profiler
+
+    def self.logger
+      @logger ||= Logger.new(STDOUT)
+    end
 
     # Measures the amount of time that is spent
     # in the given block.
@@ -14,7 +20,7 @@ module Mscan
       start_time = Time.now
       result = block.call
       total_time = Time.now - start_time
-      puts "#{name || 'the block'} took #{total_time}s" if Mscan::Settings.verbose
+      logger.info "#{name || 'the block'} took #{total_time}s" if Mscan::Settings.verbose
 
       [result, total_time]
     end
