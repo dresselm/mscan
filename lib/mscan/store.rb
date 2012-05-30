@@ -8,7 +8,7 @@ module Mscan #nodoc
 
     ANALYSIS_OUTPUT_DIR      = 'analysis'
     META_FILE_NAME           = 'meta.mscan'
-    AGGREGATE_SCAN_FILE_NAME = 'scan.mscan'
+    COMPOSITE_SCAN_FILE_NAME = 'scan.mscan'
     ANALYSIS_FILE_NAME       = 'analysis.mscan'
 
     def self.included(base)

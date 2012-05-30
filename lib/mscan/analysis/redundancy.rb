@@ -11,6 +11,11 @@ module Mscan #nodoc
         @transformed_data = transformed_data
       end
 
+      # Transforms and analyzes raw meta data to determine
+      # whether there are any redundant files
+      #
+      # @param [Hash] raw_data
+      # @return [Redundancy] the {Redundancy redundancy analysis}
       def self.analyze(raw_data)
         transformed_data = transform(raw_data)
         redundancy_analysis = new(raw_data, transformed_data)
@@ -59,15 +64,23 @@ module Mscan #nodoc
         }
       end
 
-
+      # Returns the total size of all scanned files in bytes
+      #
+      # @return [Integer] the total file size
       def total_size
         Mscan::Analyzer.total_size(raw_data.values)
       end
 
+      # Returns the total number of scanned files
+      #
+      # @return [Integer] the total number of files
       def total_number_files
         Mscan::Analyzer.total_number_files(raw_data)
       end
 
+      # Returns the total size of all unique scanned files
+      #
+      # @return [Integer] the total size of unique files
       # TODO Fix inconsistencies when accessing symbols vs strings vs instance vars
       def total_unique_size
         media_files = transformed_data.values.map {|v| v[:media]}
@@ -76,6 +89,9 @@ module Mscan #nodoc
         Mscan::Analyzer.total_size(unique_media_files)
       end
 
+      # Returns the total number of unique scanned files
+      #
+      # @return [Integer] the total number of unique files
       def total_number_unique_files
         Mscan::Analyzer.total_number_files(transformed_data)
       end
