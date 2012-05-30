@@ -22,8 +22,8 @@ module Mscan #nodoc
     module ClassMethods
       # Writes {Mscan::MediaDir} metadata to the given path
       #
-      # @param [String] the full path to the metadata file
-      # @param [MediaDir] the {MediaDir} whose contents will be written to the file
+      # @param full_path [String] the full path to the metadata file
+      # @param content [Mscan::MediaDir] the {MediaDir} whose contents will be written to the file
       def save(full_path, content={})
         # Ensure that the directory exists
         FileUtils.mkdir_p(File.dirname(full_path))
@@ -35,7 +35,7 @@ module Mscan #nodoc
 
       # Read the metadata for the given path
       #
-      # @param  [String] the full path to the metadata file
+      # @param  full_path [String] the full path to the metadata file
       # @return [Object] the parsed metadata content
       def load(full_path)
         parse(full_path)

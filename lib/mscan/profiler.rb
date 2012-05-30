@@ -4,6 +4,9 @@ module Mscan
   # Utility methods for tracking Mscan measurables
   class Profiler
 
+    # Returns the logger instance
+    #
+    # @return [Logger] the logger instance
     def self.logger
       @logger ||= Logger.new(STDOUT)
     end
@@ -11,11 +14,9 @@ module Mscan
     # Measures the amount of time that is spent
     # in the given block.
     #
-    # @param  [String] Optional name
+    # @param  name [String] The optional name
     # @return [Object, Float] The result of calling the block
     #                         and the time spent in seconds
-    #
-    # TODO use logger instead of puts
     def self.measure(name=nil, &block)
       start_time = Time.now
       result = block.call

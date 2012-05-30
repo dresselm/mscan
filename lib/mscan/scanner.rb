@@ -29,7 +29,7 @@ module Mscan #nodoc
 
     # Saves the composite scan data to a timestamped file
     #
-    # @param [Hash] composite_scan_data
+    # @param composite_scan_data [Hash]
     # @return [String] the full path to the composite scan file
     def self.save_composite_scan_data(composite_scan_data)
       full_path = "#{ANALYSIS_OUTPUT_DIR}/#{timestamp(COMPOSITE_SCAN_FILE_NAME)}"
@@ -39,8 +39,8 @@ module Mscan #nodoc
 
     # Prepend the full {MediaDir directory} path to each filename key.
     #
-    # @param [String] directory_path the full {MediaDir directory} path
-    # @param [Object] directory_data data for all {MediaFile files} within the {MediaDir directory}
+    # @param path [String] the full {MediaDir directory} path
+    # @param data [Object] data for all {MediaFile files} within the {MediaDir directory}
     # @return [Object]
     def self.prepend_path_to_keys(path, data)
       prepended_keys = data.map do |k, v|
