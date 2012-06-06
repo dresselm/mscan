@@ -7,7 +7,7 @@ module Mscan #nodoc
     # the analysis to a timestamped file that can be consumed by a Reporter.
     def self.analyze
       Profiler.measure('Analyzing') do
-        raw_meta_data = load_most_recent("#{ANALYSIS_OUTPUT_DIR}/#{AGGREGATE_SCAN_FILE_NAME}")
+        raw_meta_data = load_most_recent("#{ANALYSIS_OUTPUT_DIR}/#{COMPOSITE_SCAN_FILE_NAME}")
 
         # Pass raw data through analysis
         save_analysis(Mscan::Analysis::Redundancy.analyze(raw_meta_data))

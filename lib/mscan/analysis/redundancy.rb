@@ -17,31 +17,38 @@ module Mscan #nodoc
       # @param [Hash] raw_data
       # @return [Redundancy] the {Redundancy redundancy analysis}
       def self.analyze(raw_data)
-        transformed_data = transform(raw_data)
+        transformed_data    = transform(raw_data)
         redundancy_analysis = new(raw_data, transformed_data)
-        # duplicates sorted by base path
-        ## :duplicates => []
-        # uniques sorted by base path
-        ## :uniques => []
-        #
+
+        # TODO Organize duplicates/unique by their source/target root dirs
+
         redundancy_analysis
       end
 
       # Transforms a raw meta data hash into a fingerprint-centric
-      # lookup for easily identifying redundant files.  If multiple files have
-      # the same fingerprint, they are added to the :media array.
+      # data structure.  If multiple files have the same fingerprint,
+      # they are added to the 'media' array.  'count' is a running count
+      # of duplicates.  'size' represents the size of each media file.
       #
-      # @param [Hash] raw_data
+      # Example:
+      # { 123456789 => { 'count' => 1, 'size' => 123456, 'media' => [{'modified_at' => 1234, 'path' => 'blah/blah.png'}] } }
+      #
+      # @param [Hash] data_data
       # @return [Hash] the transformed data
-      def self.transform(raw_data={})
+      def self.transform(data={})
         fingerprint_hash = {}
-        raw_data.each do |k, v|
-          fingerprint = v.delete('fingerprint')
-          if obj = fingerprint_hash[fingerprint]
-            obj[:media] << v.merge(:path => k)
+        return fingerprint_hash if data.nil?
+
+        data.each do |key, value|
+          data_value = value.dup
+          fingerprint = data_value.delete('fingerprint')
+          file_size   = data_value.delete('size')
+          if fingerprint_hash[fingerprint]
+            fingerprint_hash[fingerprint]['count'] += 1
           else
-            fingerprint_hash[fingerprint] = {:media => [v.merge(:path => k)]}
+            fingerprint_hash[fingerprint] = {'count' => 1, 'size' => file_size, 'media' => []}
           end
+          fingerprint_hash[fingerprint]['media'] << data_value.merge('path' => key)
         end
         fingerprint_hash
       end
@@ -83,10 +90,7 @@ module Mscan #nodoc
       # @return [Integer] the total size of unique files
       # TODO Fix inconsistencies when accessing symbols vs strings vs instance vars
       def total_unique_size
-        media_files = transformed_data.values.map {|v| v[:media]}
-        # All the media files pointing to the same fingerprint are identical, so just pick the first
-        unique_media_files = media_files.map(&:first)
-        Mscan::Analyzer.total_size(unique_media_files)
+        Mscan::Analyzer.total_size(transformed_data.values)
       end
 
       # Returns the total number of unique scanned files
@@ -94,6 +98,13 @@ module Mscan #nodoc
       # @return [Integer] the total number of unique files
       def total_number_unique_files
         Mscan::Analyzer.total_number_files(transformed_data)
+      end
+
+      # Returns the total number of duplicate files
+      #
+      # @return [Integer] the total number of duplicate files
+      def total_number_duplicate_files
+        total_number_files - total_number_unique_files
       end
     end
   end
