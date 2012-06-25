@@ -67,6 +67,7 @@ module Mscan #nodoc
 
           :unique_size => total_unique_size,
           :num_unique_files => total_number_unique_files,
+          :num_duplicate_files => total_number_duplicate_files,
           :unique_media => transformed_data
         }
       end

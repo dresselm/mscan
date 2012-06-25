@@ -8,7 +8,7 @@ module Mscan #nodoc
 
     attr_reader :path
 
-    def initialize(dir_path)
+    def initialize(dir_path='.')
       @path = dir_path
     end
 
@@ -33,6 +33,13 @@ module Mscan #nodoc
       media
     end
 
+    # Sorts media by path name
+    #
+    # @return [Array] sorted {MediaFile media files}
+    def sorted_media
+      media.sort_by(&:name)
+    end
+
     # Returns a parameter hash representing the {MediaFile files} within
     # the {MediaDir current directory}. The hash is ordered by {MediaFile file} name.
     #
@@ -40,7 +47,7 @@ module Mscan #nodoc
     # @return [Object] parameter hash
     def to_params(*args)
       ordered_hash = {}
-      media.sort_by(&:name).each do |media_file|
+      sorted_media.each do |media_file|
         ordered_hash[media_file.name] = media_file.to_params(*args)
       end
       ordered_hash
