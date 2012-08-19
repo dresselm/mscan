@@ -1,1 +1,1 @@
-rvm --create 1.9.2-p180-patched@mscan
+rvm --create 1.9.3-p194@mscan
