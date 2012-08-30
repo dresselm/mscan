@@ -14,6 +14,22 @@ module Mscan #nodoc
       end
     end
 
+    # Calculates the total size of all raw data files.
+    #
+    # @param [Array] raw_data_files
+    # @return [Integer] the total size of the raw data.
+    def self.total_size(raw_data_files)
+      raw_data_files.inject(0) {|total_size, raw_data_file| total_size + raw_data_file['size']}
+    end
+
+    # Calculates the total number of files represented in the raw data hash parameter.
+    #
+    # @param [Hash] raw_data_hash
+    # @return [Integer] the total number of files represented in the hash parameter.
+    def self.file_count(raw_data_hash)
+      raw_data_hash.keys.size
+    end
+
     # Saves the {Mscan::Analysis analyzer} to a timestamped file
     #
     # @param [Mscan::Analysis] analyzer
@@ -21,22 +37,7 @@ module Mscan #nodoc
     def self.save_analysis(analyzer)
       save("#{ANALYSIS_OUTPUT_DIR}/#{timestamp(ANALYSIS_FILE_NAME)}", analyzer.to_params)
     end
-
-    # Calculates the total size of all {Mscan::MediaFile media file} parameters.
-    #
-    # @param [Array] media_files
-    # @return [Integer] the total size of {Mscan::MediaFile media file} parameters.
-    def self.total_size(media_files)
-      media_files.inject(0) {|total_size, media_file| total_size + media_file['size']}
-    end
-
-    # Calculates the total number of files represented in the meta_data hash parameter.
-    #
-    # @param [Hash] meta_data_hash
-    # @return [Integer] the total number of files represented in the hash parameter.
-    def self.total_number_files(meta_data_hash)
-      meta_data_hash.keys.size
-    end
+    private_class_method :save_analysis
 
   end
 end

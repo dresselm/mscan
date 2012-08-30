@@ -63,11 +63,11 @@ module Mscan #nodoc
           :target_dirs => Mscan::Settings.target_directories,
 
           :size => total_size,
-          :num_files => total_number_files,
+          :num_files => file_count,
 
           :unique_size => total_unique_size,
-          :num_unique_files => total_number_unique_files,
-          :num_duplicate_files => total_number_duplicate_files,
+          :num_unique_files => unique_file_count,
+          :num_duplicate_files => duplicate_file_count,
           :unique_media => transformed_data
         }
       end
@@ -82,8 +82,8 @@ module Mscan #nodoc
       # Returns the total number of scanned files
       #
       # @return [Integer] the total number of files
-      def total_number_files
-        Mscan::Analyzer.total_number_files(raw_data)
+      def file_count
+        Mscan::Analyzer.file_count(raw_data)
       end
 
       # Returns the total size of all unique scanned files
@@ -97,15 +97,15 @@ module Mscan #nodoc
       # Returns the total number of unique scanned files
       #
       # @return [Integer] the total number of unique files
-      def total_number_unique_files
-        Mscan::Analyzer.total_number_files(transformed_data)
+      def unique_file_count
+        Mscan::Analyzer.file_count(transformed_data)
       end
 
       # Returns the total number of duplicate files
       #
       # @return [Integer] the total number of duplicate files
-      def total_number_duplicate_files
-        total_number_files - total_number_unique_files
+      def duplicate_file_count
+        file_count - unique_file_count
       end
     end
   end

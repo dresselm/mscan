@@ -2,6 +2,7 @@ require 'digest/md5'
 
 module Mscan #nodoc
   # MediaFile file wrapper
+  # TODO Consider where Pathname, FileUtils and Tempfile could be used
   class MediaFile
 
     def initialize(file_path)
@@ -73,6 +74,7 @@ module Mscan #nodoc
     #
     # @return [Digest::MD5] the unique fingerprint
     def fingerprint
+      # TODO look at performance vs SHA1/SHA2
       Digest::MD5.file(path)
     end
 
