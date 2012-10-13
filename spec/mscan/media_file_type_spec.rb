@@ -26,6 +26,16 @@ describe Mscan::MediaFileType do
     end
   end
 
+  describe "temp?" do
+    it 'should return true for a temp file' do
+      Mscan::MediaFileType.temp?('some_file.bak').should be_true
+    end
+
+    it 'should return false for a non-temp file' do
+      Mscan::MediaFileType.temp?('some_file.png').should be_false
+    end
+  end
+
   describe "for_file_name" do
     it 'should return nil if the file name does not contain a period' do
       Mscan::MediaFileType.for_file_name('blah').should be_nil

@@ -3,6 +3,9 @@ module Mscan #nodoc
   class Analyzer
     include Store
 
+    # List of all available analyzers
+    ANALYZERS = [:redundancy]
+
     # Analyzes the most recent composite scan data via one or more Analyzers and saves
     # the analysis to a timestamped file that can be consumed by a Reporter.
     def self.analyze
@@ -10,7 +13,10 @@ module Mscan #nodoc
         raw_meta_data = load_most_recent("#{ANALYSIS_OUTPUT_DIR}/#{COMPOSITE_SCAN_FILE_NAME}")
 
         # Pass raw data through analysis
-        save_analysis(Mscan::Analysis::Redundancy.analyze(raw_meta_data))
+        ANALYZERS.each do |analyzer|
+          analyzer_class = analyzer_class_from_symbol(analyzer)
+          save_analysis(analyzer_class.analyze(raw_meta_data))
+        end
       end
     end
 
@@ -29,6 +35,14 @@ module Mscan #nodoc
     def self.file_count(raw_data_hash)
       raw_data_hash.keys.size
     end
+
+    # Returns the Analyzer associated with the given symbol
+    # @param [Symbol] sym
+    # @return [Class] analyzer class
+    def self.analyzer_class_from_symbol(sym)
+      Mscan::Analysis.const_get(sym.to_s.capitalize)
+    end
+    private_class_method :analyzer_class_from_symbol
 
     # Saves the {Mscan::Analysis analyzer} to a timestamped file
     #

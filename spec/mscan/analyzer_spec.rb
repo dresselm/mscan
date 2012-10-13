@@ -3,9 +3,28 @@ require 'spec_helper'
 describe Mscan::Analyzer do
 
   describe '.analyze' do
-    it 'should load the most recent meta data'
-    it 'should pass the meta data to analyzers'
-    it 'should save the analysis'
+    it 'should load the most recent meta data' do
+      Mscan::Analyzer.should_receive(:load_most_recent).with('analysis/scan.mscan')
+      Mscan::Analyzer.stub(:save_analysis)
+      Mscan::Analyzer.analyze
+    end
+
+    it 'should pass the meta data to analyzers' do
+      raw_meta_data = {}
+      Mscan::Analyzer.stub(:load_most_recent).and_return(raw_meta_data)
+      Mscan::Analysis::Redundancy.should_receive(:analyze).with(raw_meta_data)
+      Mscan::Analyzer.stub(:save_analysis)
+
+      Mscan::Analyzer.analyze
+    end
+
+    it 'should save the analysis' do
+      analyzed_meta_data = {}
+      Mscan::Analysis::Redundancy.stub(:analyze).and_return(analyzed_meta_data)
+      Mscan::Analyzer.should_receive(:save_analysis).with(analyzed_meta_data)
+
+      Mscan::Analyzer.analyze
+    end
   end
 
   describe '.total_size' do

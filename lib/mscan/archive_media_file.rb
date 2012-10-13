@@ -1,4 +1,6 @@
-module Mscan
+module Mscan #nodoc
+  # Special type of {MediaFile} that represents a container
+  # of other {MediaFile media files}
   class ArchiveMediaFile < MediaFile
 
     # Override to_params to support the complexities

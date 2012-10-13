@@ -33,7 +33,7 @@ module Mscan #nodoc
       # Example:
       # { 123456789 => { 'count' => 1, 'size' => 123456, 'media' => [{'modified_at' => 1234, 'path' => 'blah/blah.png'}] } }
       #
-      # @param [Hash] data_data
+      # @param [Hash] data
       # @return [Hash] the transformed data
       def self.transform(data={})
         fingerprint_hash = {}

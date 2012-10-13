@@ -23,7 +23,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ mscan scan -d dir1 -d dir2 -d dir3 (an array of root directories)
+    $ mscan analyze (what kind of analysis - all, difference, missing, ) - could default this to :all and run it as a part of report for now
+    $ mscan report
 
 ## TODO
 

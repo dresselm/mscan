@@ -1,5 +1,6 @@
 require 'yaml'
 
+# TODO Replace with the configuration gem
 module Mscan #nodoc
   # Wrapper for accessing configuration settings
   module Settings
@@ -12,16 +13,23 @@ module Mscan #nodoc
     @_settings = nil
     attr_reader :_settings
 
+    # Load the settings file with optional overrides.
+    #
+    # @param [Hash] options (optional)
+    # @return [Hash] the settings object
     def load!(options={})
       @_settings ||= load_settings
       deep_merge!(@_settings, options)
     end
 
+    # The directories that should be scanned
+    #
+    # @return [Array] the list of the directories to scan
     def scan_directories
       source_directories + target_directories
     end
 
-    # nodoc
+    # Override method_missing to handle dynamic setting lookup
     def method_missing(name, *args, &block)
       # TODO need to fail if the name is unknown
       # fail(NoMethodError, "unkown setting #{name}", caller)
