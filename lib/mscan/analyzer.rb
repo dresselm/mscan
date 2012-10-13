@@ -20,20 +20,24 @@ module Mscan # :nodoc:
       end
     end
 
-    # Calculates the total size of all raw data files.
+    # Calculates the total size of all data files.
     #
-    # @param [Array] raw_data_files
-    # @return [Integer] the total size of the raw data.
-    def self.total_size(raw_data_files)
-      raw_data_files.inject(0) {|total_size, raw_data_file| total_size + raw_data_file['size']}
+    # @param [Array] data_files
+    # @return [Integer] the total size of the data.
+    def self.total_size(data_files)
+      return 0 if data_files.nil? || data_files.empty?
+
+      data_files.inject(0) {|total_size, data_file| total_size + data_file['size']}
     end
 
-    # Calculates the total number of files represented in the raw data hash parameter.
+    # Calculates the total number of data files.
     #
-    # @param [Hash] raw_data_hash
-    # @return [Integer] the total number of files represented in the hash parameter.
-    def self.file_count(raw_data_hash)
-      raw_data_hash.keys.size
+    # @param [Array] data_files
+    # @return [Integer] the total number of files represented in the array.
+    def self.file_count(data_files)
+      return 0 if data_files.nil?
+
+      data_files.size
     end
 
     # Returns the Analyzer associated with the given symbol
@@ -49,6 +53,8 @@ module Mscan # :nodoc:
     # @param [Mscan::Analysis] analyzer
     # @return [String] path to analysis file
     def self.save_analysis(analyzer)
+      return if analyzer.nil?
+
       save("#{ANALYSIS_OUTPUT_DIR}/#{timestamp(ANALYSIS_FILE_NAME)}", analyzer.to_params)
     end
     private_class_method :save_analysis

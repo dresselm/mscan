@@ -1,34 +1,54 @@
 require 'spec_helper'
+require 'fakefs/spec_helpers'
 
 describe Mscan::Analyzer do
+  include FakeFS::SpecHelpers
+
+  let(:raw_meta_data) {
+    {
+      "some.png"  => {"modified_at" => 1299024957, "size" => 3226, "fingerprint" => "cd5a4d84eb060aef3aeeb9123bb7bb8c"},
+      "other.png" => {"modified_at" => 1299024957, "size" => 2998, "fingerprint" => "7ebd9ab20fcfffdf5d64f4efdf3b67a7"}
+    }
+  }
+
+  before do
+    @now = Time.now
+    Timecop.freeze(@now)
+  end
+
+  after do
+    Timecop.return
+  end
 
   describe '.analyze' do
     it 'should load the most recent meta data' do
       Mscan::Analyzer.should_receive(:load_most_recent).with('analysis/scan.mscan')
-      Mscan::Analyzer.stub(:save_analysis)
+
       Mscan::Analyzer.analyze
     end
 
     it 'should pass the meta data to analyzers' do
-      raw_meta_data = {}
       Mscan::Analyzer.stub(:load_most_recent).and_return(raw_meta_data)
       Mscan::Analysis::Redundancy.should_receive(:analyze).with(raw_meta_data)
-      Mscan::Analyzer.stub(:save_analysis)
 
       Mscan::Analyzer.analyze
     end
 
     it 'should save the analysis' do
-      analyzed_meta_data = {}
-      Mscan::Analysis::Redundancy.stub(:analyze).and_return(analyzed_meta_data)
-      Mscan::Analyzer.should_receive(:save_analysis).with(analyzed_meta_data)
+      Mscan::Analyzer.stub(:load_most_recent).and_return(raw_meta_data)
 
       Mscan::Analyzer.analyze
+
+      File.exist?("analysis/#{@now.to_i}_analysis.mscan")
     end
   end
 
   describe '.total_size' do
-    it 'should return 0 when no media files are passed in' do
+    it 'should return 0 if media files are nil' do
+      Mscan::Analyzer.total_size(nil).should be_zero
+    end
+
+    it 'should return 0 if media files are empty' do
       Mscan::Analyzer.total_size([]).should be_zero
     end
 
@@ -40,8 +60,12 @@ describe Mscan::Analyzer do
   end
 
   describe '.file_count' do
-    it 'should return 0 when no media files are passed in' do
-      Mscan::Analyzer.file_count({}).should be_zero
+    it 'should return 0 if media files are nil' do
+      Mscan::Analyzer.file_count(nil).should be_zero
+    end
+
+    it 'should return 0 if media files are empty' do
+      Mscan::Analyzer.file_count([]).should be_zero
     end
 
     it 'should return the number of media files that are passed in' do

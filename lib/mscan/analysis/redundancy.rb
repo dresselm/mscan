@@ -7,7 +7,7 @@ module Mscan # :nodoc:
       attr_reader :raw_data, :transformed_data
 
       def initialize(raw_data, transformed_data)
-        @raw_data = raw_data
+        @raw_data         = raw_data
         @transformed_data = transformed_data
       end
 
@@ -40,7 +40,7 @@ module Mscan # :nodoc:
         return fingerprint_hash if data.nil?
 
         data.each do |key, value|
-          data_value = value.dup
+          data_value  = value.dup
           fingerprint = data_value.delete('fingerprint')
           file_size   = data_value.delete('size')
           if fingerprint_hash[fingerprint]
@@ -53,37 +53,32 @@ module Mscan # :nodoc:
         fingerprint_hash
       end
 
-      # Returns a params hash with essential data related to the redundancy analysis.
-      #
-      # @return [Hash] the redundancy analysis params
-      def to_params
-        {
-          # TODO pull these directories from the raw_data hash
-          :source_dirs => Mscan::Settings.source_directories,
-          :target_dirs => Mscan::Settings.target_directories,
+      # @return [Array] the raw data values
+      def raw_data_values
+        return [] if raw_data.nil?
 
-          :size => total_size,
-          :num_files => file_count,
+        @raw_data_values ||= @raw_data.values
+      end
 
-          :unique_size => total_unique_size,
-          :num_unique_files => unique_file_count,
-          :num_duplicate_files => duplicate_file_count,
-          :unique_media => transformed_data
-        }
+      # @return [Array] the transformed data values
+      def transformed_data_values
+        return [] if transformed_data.nil?
+
+        @transformed_data_values ||= @transformed_data.values
       end
 
       # Returns the total size of all scanned files in bytes
       #
       # @return [Integer] the total file size
       def total_size
-        Mscan::Analyzer.total_size(raw_data.values)
+        Mscan::Analyzer.total_size(raw_data_values)
       end
 
       # Returns the total number of scanned files
       #
       # @return [Integer] the total number of files
       def file_count
-        Mscan::Analyzer.file_count(raw_data)
+        Mscan::Analyzer.file_count(raw_data_values)
       end
 
       # Returns the total size of all unique scanned files
@@ -91,14 +86,14 @@ module Mscan # :nodoc:
       # @return [Integer] the total size of unique files
       # TODO Fix inconsistencies when accessing symbols vs strings vs instance vars
       def total_unique_size
-        Mscan::Analyzer.total_size(transformed_data.values)
+        Mscan::Analyzer.total_size(transformed_data_values)
       end
 
       # Returns the total number of unique scanned files
       #
       # @return [Integer] the total number of unique files
       def unique_file_count
-        Mscan::Analyzer.file_count(transformed_data)
+        Mscan::Analyzer.file_count(transformed_data_values)
       end
 
       # Returns the total number of duplicate files
@@ -107,6 +102,26 @@ module Mscan # :nodoc:
       def duplicate_file_count
         file_count - unique_file_count
       end
+
+      # Returns a params hash with essential data related to the redundancy analysis.
+      #
+      # @return [Hash] the redundancy analysis params
+      def to_params
+        {
+          # TODO pull these directories from the raw_data hash
+          :source_dirs         => Mscan::Settings.source_directories,
+          :target_dirs         => Mscan::Settings.target_directories,
+
+          :size                => total_size,
+          :num_files           => file_count,
+
+          :unique_size         => total_unique_size,
+          :num_unique_files    => unique_file_count,
+          :num_duplicate_files => duplicate_file_count,
+          :unique_media        => transformed_data
+        }
+      end
+
     end
   end
 end
