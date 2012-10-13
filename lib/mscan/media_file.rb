@@ -1,6 +1,6 @@
 require 'digest/md5'
 
-module Mscan #nodoc
+module Mscan # :nodoc:
   # MediaFile file wrapper
   # TODO Consider where Pathname, FileUtils and Tempfile could be used
   class MediaFile

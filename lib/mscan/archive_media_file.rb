@@ -1,4 +1,4 @@
-module Mscan #nodoc
+module Mscan # :nodoc:
   # Special type of {MediaFile} that represents a container
   # of other {MediaFile media files}
   class ArchiveMediaFile < MediaFile

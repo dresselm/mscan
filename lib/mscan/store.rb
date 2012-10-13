@@ -2,7 +2,7 @@ require 'yajl'
 require 'fileutils'
 require 'active_support/inflector'
 
-module Mscan #nodoc
+module Mscan # :nodoc:
   # Utility wrapper for reading and writing meta files
   module Store
 
@@ -21,7 +21,7 @@ module Mscan #nodoc
       base.extend(ClassMethods)
     end
 
-    class Error < RuntimeError; end #nodoc
+    class Error < RuntimeError; end # :nodoc:
     # The error raised when the file path is invalid
     class InvalidPathError < Error; end
 

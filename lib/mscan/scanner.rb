@@ -1,4 +1,4 @@
-module Mscan #nodoc
+module Mscan # :nodoc:
   # Scans directories, instruments media files and stores
   # the instrumentation data in metadata files.  Once initial scanning
   # completes, a composite file is generated for consumption.

@@ -1,4 +1,4 @@
-module Mscan #nodoc
+module Mscan # :nodoc:
   # Analyzes metadata files and prepares information for reporting
   class Analyzer
     include Store

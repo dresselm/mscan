@@ -15,6 +15,6 @@ require 'active_support'
 
 Mscan::Settings.load!
 
-module Mscan #nodoc
+module Mscan # :nodoc:
 end
 

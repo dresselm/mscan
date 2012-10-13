@@ -1,4 +1,4 @@
-module Mscan #nodoc
+module Mscan # :nodoc:
   # Reports Mscan analysis
   class Reporter
 

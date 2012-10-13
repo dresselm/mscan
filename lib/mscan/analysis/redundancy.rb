@@ -1,5 +1,5 @@
-module Mscan #nodoc
-  module Analysis #nodoc
+module Mscan # :nodoc:
+  module Analysis # :nodoc:
     # Redundancy analysis identifies redundant and non-redundant media files
     # across source and target directories
     class Redundancy

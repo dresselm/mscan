@@ -1,8 +1,8 @@
-module Mscan #nodoc
+module Mscan # :nodoc:
   # Media directory wrapper
   class MediaDir
 
-    class Error < RuntimeError; end #nodoc
+    class Error < RuntimeError; end # :nodoc:
     # Raised if the supplied path does not represent a valid directory
     class InvalidPathError < Error; end
 

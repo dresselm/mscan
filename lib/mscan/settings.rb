@@ -1,7 +1,7 @@
 require 'yaml'
 
 # TODO Replace with the configuration gem
-module Mscan #nodoc
+module Mscan # :nodoc:
   # Wrapper for accessing configuration settings
   module Settings
     # singleton
