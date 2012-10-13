@@ -12,6 +12,35 @@ module Mscan # :nodoc:
       @path = dir_path
     end
 
+    # Returns a list of all {MediaDir media directories} for the configured
+    # scan directories. Inclusive of each {MediaDir scan directory}.
+    #
+    # @return [Array] an array of {MediaDir directories}
+    def self.find_all_media_dirs
+      Settings.scan_directories.map do |root_dir|
+        find_media_dirs(root_dir)
+      end.flatten
+    end
+
+    # Returns a list of the entire {MediaDir directory} tree for the given path.
+    # Inclusive of the root directory.
+    #
+    # @param [String] root_path
+    # @return [Array] an array of {MediaDir directories}
+    def self.find_media_dirs(root_path)
+      raise InvalidPathError, "Unable to find media directories.  #{root_path} does not exist!" unless File.directory?(root_path)
+
+      media_directories = []
+      Find.find(root_path) do |path|
+        # Paths are relative to the working directory
+        if File.directory?(path)
+          # Find.prune if File.basename(path)[0] == ?.
+          media_directories << MediaDir.new(path)
+        end
+      end
+      media_directories
+    end
+
     # Returns a list of all files and directories in
     # this {MediaDir directory}
     #
@@ -53,34 +82,6 @@ module Mscan # :nodoc:
       ordered_hash
     end
 
-    # Returns a list of all {MediaDir media directories} for the configured
-    # scan directories. Inclusive of each {MediaDir scan directory}.
-    #
-    # @return [Array] an array of {MediaDir directories}
-    def self.find_all_media_dirs
-      Settings.scan_directories.map do |root_dir|
-        find_media_dirs(root_dir)
-      end.flatten
-    end
-
-    # Returns a list of the entire {MediaDir directory} tree for the given path.
-    # Inclusive of the root directory.
-    #
-    # @param [String] root_path
-    # @return [Array] an array of {MediaDir directories}
-    def self.find_media_dirs(root_path)
-      raise InvalidPathError, "Unable to find media directories.  #{root_path} does not exist!" unless File.directory?(root_path)
-
-      media_directories = []
-      Find.find(root_path) do |path|
-        # Paths are relative to the working directory
-        if File.directory?(path)
-          # Find.prune if File.basename(path)[0] == ?.
-          media_directories << MediaDir.new(path)
-        end
-      end
-      media_directories
-    end
 
   end
 end

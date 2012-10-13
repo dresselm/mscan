@@ -15,10 +15,11 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Mscan::VERSION
 
-  gem.add_runtime_dependency(%q<yajl-ruby>)
-  gem.add_runtime_dependency(%q<active_support>)
+  gem.add_runtime_dependency('yajl-ruby')
+  gem.add_runtime_dependency('active_support')
 
-  gem.add_development_dependency(%q<pry>)
-  gem.add_development_dependency(%q<redcarpet>)
-  gem.add_development_dependency(%q<yard>)
+  gem.add_development_dependency('rake')
+  gem.add_development_dependency('pry')
+  gem.add_development_dependency('redcarpet','2.1.1')
+  gem.add_development_dependency('yard')
 end
