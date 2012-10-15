@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency('yajl-ruby')
   gem.add_runtime_dependency('active_support')
+  gem.add_runtime_dependency('configuration', '~> 1.3.2')
 
   gem.add_development_dependency('rake')
   gem.add_development_dependency('pry')

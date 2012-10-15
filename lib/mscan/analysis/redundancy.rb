@@ -109,8 +109,8 @@ module Mscan # :nodoc:
       def to_params
         {
           # TODO pull these directories from the raw_data hash
-          :source_dirs         => Mscan::Settings.source_directories,
-          :target_dirs         => Mscan::Settings.target_directories,
+          :source_dirs         => Mscan::Config.source_directories,
+          :target_dirs         => Mscan::Config.target_directories,
 
           :size                => total_size,
           :num_files           => file_count,

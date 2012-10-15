@@ -19,11 +19,11 @@ module Mscan
     #                         and the time spent in seconds
     def self.measure(name=nil, &block)
       start_time = Time.now
-      result = block.call
+      result = block.call if block_given?
       total_time = Time.now - start_time
-      logger.info "#{name || 'the block'} took #{total_time}s" if Mscan::Settings.verbose
+      logger.info "#{name || 'the block'} took #{total_time}s" if Mscan::Config.verbose
 
-      [result, total_time]
+      [result || name, total_time]
     end
 
   end

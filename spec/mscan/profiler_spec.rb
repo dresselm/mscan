@@ -15,13 +15,17 @@ describe Mscan::Profiler do
       result.first.should == 4
     end
 
-    context 'verbose = true' do
+    context 'when verbose = true' do
       before do
-        Mscan::Settings.load!({'verbose' => true})
+        Configuration.for('app') do
+          verbose true
+        end
       end
 
       after do
-        Mscan::Settings.load!({'verbose' => false})
+        Configuration.for('app') do
+          verbose false
+        end
       end
 
       it 'should print the name' do
@@ -35,15 +39,7 @@ describe Mscan::Profiler do
       end
     end
 
-    context 'verbose = false' do
-      before do
-        Mscan::Settings.load!({'verbose' => false})
-      end
-
-      after do
-        Timecop.return
-      end
-
+    context 'when verbose = false' do
       it 'should not print the name' do
         $stdout.should_not_receive(:puts).with(/some name/)
         Mscan::Profiler.measure('some name') { 2 + 2 }

@@ -1,6 +1,6 @@
 require 'mscan/version'
+require 'mscan/config'
 require 'mscan/media_file_type'
-require 'mscan/settings'
 require 'mscan/profiler'
 require 'mscan/store'
 require 'mscan/media_file'
@@ -12,8 +12,6 @@ require 'mscan/reporter'
 
 require 'find'
 require 'active_support'
-
-Mscan::Settings.load!
 
 module Mscan # :nodoc:
 end

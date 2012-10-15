@@ -17,7 +17,7 @@ module Mscan # :nodoc:
     #
     # @return [Array] an array of {MediaDir directories}
     def self.find_all_media_dirs
-      Settings.scan_directories.map do |root_dir|
+      Mscan::Config.scan_directories.map do |root_dir|
         find_media_dirs(root_dir)
       end.flatten
     end

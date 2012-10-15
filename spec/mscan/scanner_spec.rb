@@ -19,13 +19,8 @@ describe Mscan::Scanner do
     @now = Time.now
     Timecop.freeze(@now)
 
-    source_dir = '/test/source_dir'
-    destination_dir = '/test/destination_dir'
-    @scan_directories = [source_dir, destination_dir]
+    @scan_directories = Mscan::Config.scan_directories
     create_test_files_within(@scan_directories)
-
-    Mscan::Settings.load!({'source_directories' => [source_dir],
-                           'destination_directories' => [destination_dir]})
   end
 
   after do
