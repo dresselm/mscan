@@ -22,8 +22,8 @@ module Mscan # :nodoc:
       end.flatten
     end
 
-    # Returns a list of the entire {MediaDir directory} tree for the given path.
-    # Inclusive of the root directory.
+    # Returns a list of the entire {MediaDir directory} tree for the given fully
+    # qualified path. Inclusive of the root directory.
     #
     # @param [String] root_path
     # @return [Array] an array of {MediaDir directories}
@@ -66,7 +66,7 @@ module Mscan # :nodoc:
     #
     # @return [Array] sorted {MediaFile media files}
     def sorted_media
-      media.sort_by(&:name)
+      media.sort_by(&:path)
     end
 
     # Returns a parameter hash representing the {MediaFile files} within
