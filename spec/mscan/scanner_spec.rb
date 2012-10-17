@@ -1,28 +1,17 @@
 require 'spec_helper'
-require 'fakefs'
 
-
-# TODO write much better specs
+# TODO figure out how to use FakeFS such that it mirrors the actual
+# spec/media directory
+# possibly save a flat rb file that contains a serialized representation
+# of the data that can then be used to create a temp structure via FakeFS
 describe Mscan::Scanner do
 
-  def create_test_files_within(dir_list)
-    dir_list.each_with_index do |directory, index|
-      FileUtils.mkdir_p(directory)
-      FileUtils.cd(directory) do
-        File.open("test#{index}.png", 'w+') do |f|
-          f.puts "some gibberish #{index}"
-        end
-      end
+  after do
+    # Remove all the spec-produced meta.mscan files
+    Dir.glob('spec/media/**/meta.mscan') do |meta_mscan_path|
+      File.delete(meta_mscan_path)
     end
-  end
-
-  before do
-    # TODO use real files as inputs but FakeFS for the output
-    # call the spec helper:
-    # Possibly in the spec_helper create a function that is run before_all
-    # and exposes the spec/media data, so that the FakeFS helper can replicate it
-    @scan_directories = Mscan::Config.scan_directories
-    create_test_files_within(@scan_directories)
+    # Remove the ANALYSIS_OUTPUT_DIR
   end
 
   describe '.scan' do
@@ -32,32 +21,38 @@ describe Mscan::Scanner do
     end
 
     context 'when scanning each originating directory' do
+      let(:spec_media_dir) { 'spec/media/**/*' }
+
+      before do
+        Mscan::Scanner.scan
+      end
 
       it 'should save a meta data file' do
-        Mscan::Scanner.scan
+        Dir.glob(spec_media_dir).each do |expected_scan_directory|
+          next if !File.directory?(expected_scan_directory)
 
-        @scan_directories.each do |scan_directory|
-          # puts scan_directory
-          FileUtils.cd(scan_directory) do
-            File.exist?('meta.mscan').should be_true
-            mscan_object = Yajl::Parser.new.parse(File.read('meta.mscan'))
-            # puts mscan_object.values
-            # .should == '{"test0.png":{"modified_at":1350455513,"size":17,"fingerprint":"a2cdb7a6dcdcdf1a4a244ba318b737ce"}}'
-          end
+          mscan_file = "#{expected_scan_directory}/meta.mscan"
+          File.exist?(mscan_file).should be_true
         end
       end
 
-
+      it 'should include a meta data update timestamp'
+      # puts Yajl::Parser.new.parse(File.read(mscan_file))
+      it 'should include details for every media file'
+      it 'should include details for unknown file types'
     end
 
-    it 'should construct the composite scan file by aggregating all meta data'
-    it 'should provide the full path to each originating file'
+    context 'when constructing the composite data' do
+      it 'should aggregate all the meta data'
+      it 'should provide the full path to each originating file'
 
-    it 'should save the composite scan data to the ANALYSIS_OUTPUT_DIR' do
-      Mscan::Scanner.scan
+      it 'should save the composite data to the ANALYSIS_OUTPUT_DIR' do
+        Mscan::Scanner.scan
 
-      expected_composite_file = "#{Mscan::Store::ANALYSIS_OUTPUT_DIR}/#{Time.now.to_i}_scan.mscan"
-      File.size?(expected_composite_file).should_not be_nil
+        expected_composite_file = "#{Mscan::Store::ANALYSIS_OUTPUT_DIR}/#{Time.now.to_i}_scan.mscan"
+        File.size?(expected_composite_file).should_not be_nil
+      end
+
     end
 
   end
