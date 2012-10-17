@@ -75,6 +75,7 @@ module Mscan # :nodoc:
     # @return [Digest::MD5] the unique fingerprint
     def fingerprint
       # TODO look at performance vs SHA1/SHA2
+      # TODO investigate File.identical?
       Digest::MD5.file(path)
     end
 

@@ -31,7 +31,10 @@ module Mscan # :nodoc:
       # of duplicates.  'size' represents the size of each media file.
       #
       # Example:
-      # { 123456789 => { 'count' => 1, 'size' => 123456, 'media' => [{'modified_at' => 1234, 'path' => 'blah/blah.png'}] } }
+      # { 123456789 => { :count => 1,
+      #                  :size => 123456,
+      #                  :media => [ { :modified_at => 1234, :path => 'blah/blah.png' } ]
+      #                } }
       #
       # @param [Hash] data
       # @return [Hash] the transformed data
