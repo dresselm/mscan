@@ -12,7 +12,7 @@ module Mscan # :nodoc:
     #
     # @return [String] the path to the composite scan file
     def self.scan
-      Profiler.measure('Scanning') do
+      Logger.measure('Scanning') do
         composite_scan_data = {}
         MediaDir.find_all_media_dirs.each do |media_dir|
           media_dir_path = media_dir.path

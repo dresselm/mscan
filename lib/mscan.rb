@@ -1,7 +1,9 @@
+require 'logger'
+
 require 'mscan/version'
 require 'mscan/config'
 require 'mscan/media_file_type'
-require 'mscan/profiler'
+require 'mscan/logger'
 require 'mscan/store'
 require 'mscan/media_file'
 require 'mscan/media_dir'

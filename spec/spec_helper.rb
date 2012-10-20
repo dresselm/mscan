@@ -7,8 +7,11 @@ require 'bundler/setup'
 require 'configuration'
 require 'mscan'
 
+require 'support/media_builder'
+require 'fakefs/safe'
+
 Configuration.for('app') do
-  verbose false
+  log_level ::Logger::ERROR
   source_directories [Dir.pwd + '/spec/media/source']
   target_directories [Dir.pwd + '/spec/media/target']
   scan_directories source_directories + target_directories

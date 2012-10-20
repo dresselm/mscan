@@ -70,18 +70,19 @@ module Mscan # :nodoc:
     end
 
     # Returns a parameter hash representing the {MediaFile files} within
-    # the {MediaDir current directory}. The hash is ordered by {MediaFile file} name.
+    # the {MediaDir current directory}. The hash contains a timestamp
+    # and a list of all media_files
     #
     # @param [Array] args optional arguments to pass through to each {MediaFile file}
     # @return [Object] parameter hash
     def to_params(*args)
-      ordered_hash = {}
+      meta_data   = {:timestamp => Time.now.to_i, :media_files => []}
+      media_files = meta_data[:media_files]
       sorted_media.each do |media_file|
-        ordered_hash[media_file.name] = media_file.to_params(*args)
+        media_files << media_file.to_params(*args)
       end
-      ordered_hash
+      meta_data
     end
-
 
   end
 end

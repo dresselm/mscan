@@ -4,6 +4,16 @@ describe Mscan::MediaFile do
 
   let(:file1_path) { 'spec/media/source/dir1/file1.png' }
 
+  before do
+    FakeFS.activate!
+    MediaBuilder.build
+  end
+
+  after do
+    FakeFS.deactivate!
+    FakeFS::FileSystem.clear
+  end
+
   describe 'attributes' do
     before do
       @media_file = Mscan::MediaFile.new(file1_path)
@@ -26,8 +36,7 @@ describe Mscan::MediaFile do
     end
   end
 
-
-  context '#to_params' do
+  describe '#to_params' do
     before do
       @media_file = Mscan::MediaFile.new(file1_path)
     end
@@ -39,21 +48,21 @@ describe Mscan::MediaFile do
     end
 
     it 'should include the size' do
-      @media_file.to_params[:size].should == 159
+      @media_file.to_params[:size].should == 14
     end
 
     it 'should support optional params' do
       params = @media_file.to_params(:fingerprint)
-      params[:fingerprint].should == '2d3089fdca6ea2158fb3b395dad68dc5'
+      params[:fingerprint].should == '5ebf967df304e3d9c449e2e210a5f79f'
     end
   end
 
-  context 'fingerprint' do
-    let(:file1) { Mscan::MediaFile.new(file1_path) }
+  describe 'fingerprint' do
+    let(:file1)           { Mscan::MediaFile.new(file1_path) }
     let(:file1_diff_path) { Mscan::MediaFile.new('spec/media/target/dirC/file1.png') }
     let(:file1_diff_name) { Mscan::MediaFile.new('spec/media/source/dir3/copyFile1.png') }
-    let(:file2) { Mscan::MediaFile.new('spec/media/source/dir1/file2.png') }
-    let(:file1_altered) { Mscan::MediaFile.new('spec/media/source/dir1/file2.png') }
+    let(:file2)           { Mscan::MediaFile.new('spec/media/source/dir1/file2.png') }
+    let(:file1_altered)   { Mscan::MediaFile.new('spec/media/source/dir1/file2.png') }
 
     it 'should return the same value for the same file' do
       file1.fingerprint.should == file1.fingerprint
@@ -72,8 +81,8 @@ describe Mscan::MediaFile do
     end
   end
 
-  context 'valid?' do
-    let(:source_path) { 'spec/media/source' }
+  describe 'valid?' do
+    let(:source_path)         { 'spec/media/source' }
     let(:unknown_medium_path) { 'spec/media/target/dirC/unknown.medium' }
 
     it 'should return false for directories' do

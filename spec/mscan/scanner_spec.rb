@@ -1,17 +1,15 @@
 require 'spec_helper'
 
-# TODO figure out how to use FakeFS such that it mirrors the actual
-# spec/media directory
-# possibly save a flat rb file that contains a serialized representation
-# of the data that can then be used to create a temp structure via FakeFS
 describe Mscan::Scanner do
 
+  before do
+    FakeFS.activate!
+    MediaBuilder.build
+  end
+
   after do
-    # Remove all the spec-produced meta.mscan files
-    Dir.glob('spec/media/**/meta.mscan') do |meta_mscan_path|
-      File.delete(meta_mscan_path)
-    end
-    # Remove the ANALYSIS_OUTPUT_DIR
+    FakeFS.deactivate!
+    FakeFS::FileSystem.clear
   end
 
   describe '.scan' do
@@ -21,29 +19,41 @@ describe Mscan::Scanner do
     end
 
     context 'when scanning each originating directory' do
-      let(:spec_media_dir) { 'spec/media/**/*' }
-
       before do
         Mscan::Scanner.scan
       end
 
       it 'should save a meta data file' do
-        Dir.glob(spec_media_dir).each do |expected_scan_directory|
-          next if !File.directory?(expected_scan_directory)
-
-          mscan_file = "#{expected_scan_directory}/meta.mscan"
+        MediaBuilder.directories.each do |dir|
+          mscan_file = "#{dir}/meta.mscan"
           File.exist?(mscan_file).should be_true
         end
       end
 
-      it 'should include a meta data update timestamp'
-      # puts Yajl::Parser.new.parse(File.read(mscan_file))
-      it 'should include details for every media file'
-      it 'should include details for unknown file types'
+      it 'should include a meta data update timestamp' do
+        MediaBuilder.directories.each do |dir|
+          mscan_file = "#{dir}/meta.mscan"
+          mscan_obj  = Yajl::Parser.new.parse(File.read(mscan_file))
+          mscan_obj['timestamp'].should_not be_nil
+        end
+      end
+
+      it 'should include details for every media file' do
+        MediaBuilder.directories.each do |dir|
+          mscan_file = "#{dir}/meta.mscan"
+          mscan_obj  = Yajl::Parser.new.parse(File.read(mscan_file))
+
+          expected_files = Mscan::MediaDir.new(dir).media.map(&:name)
+          mscan_obj['media_files'].map {|mf| mf['name'] }.should =~ expected_files
+        end
+      end
     end
 
     context 'when constructing the composite data' do
-      it 'should aggregate all the meta data'
+      it 'should aggregate all the meta data' do
+
+      end
+
       it 'should provide the full path to each originating file'
 
       it 'should save the composite data to the ANALYSIS_OUTPUT_DIR' do

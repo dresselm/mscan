@@ -9,7 +9,7 @@ module Mscan # :nodoc:
     # Analyzes the most recent composite scan data via one or more Analyzers and saves
     # the analysis to a timestamped file that can be consumed by a Reporter.
     def self.analyze
-      Profiler.measure('Analyzing') do
+      Logger.measure('Analyzing') do
         raw_meta_data = load_most_recent("#{ANALYSIS_OUTPUT_DIR}/#{COMPOSITE_SCAN_FILE_NAME}")
 
         # Pass raw data through analysis

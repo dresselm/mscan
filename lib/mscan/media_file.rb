@@ -57,6 +57,7 @@ module Mscan # :nodoc:
     def to_params(*params)
       # TODO compare integer times with Time.at(i_val)
       base_params = {
+        :name        => name,
         :modified_at => modified_at.utc.to_i,
         :size        => size
       }
@@ -85,7 +86,11 @@ module Mscan # :nodoc:
     # @param [String] file_path
     # @return [Boolean] returns true if the path represents a valid media file
     def self.valid?(file_path)
-      File.file?(file_path) && MediaFileType.valid?(file_path)
+      return false unless File.file?(file_path)
+
+      is_valid_file_type = MediaFileType.valid?(file_path)
+      Logger.logger.info "Unsupported file type found for #{file_path}" unless is_valid_file_type
+      is_valid_file_type
     end
 
   end
