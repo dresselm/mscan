@@ -118,15 +118,17 @@ describe Mscan::MediaDir do
     end
 
     it 'should return the list of Mscan::MediaDirs for a given path' do
-      media_dirs = Mscan::MediaDir.find_media_dirs('spec/media/source')
+      media_dirs = Mscan::MediaDir.find_media_dirs(Dir.pwd + '/spec/media/source')
 
       media_dirs.should_not be_empty
       media_dirs.all?{ |md| md.class == Mscan::MediaDir}.should be_true
-      media_dirs.map(&:path).should =~ ['spec/media/source',
-                                        'spec/media/source/dir1',
-                                        'spec/media/source/dir2',
-                                        'spec/media/source/dir3',
-                                        'spec/media/source/emptyDir']
+      expected_relative_paths = ['spec/media/source',
+                                 'spec/media/source/dir1',
+                                 'spec/media/source/dir2',
+                                 'spec/media/source/dir3',
+                                 'spec/media/source/emptyDir']
+      # map expected relative paths to expected absolute paths
+      media_dirs.map(&:path).should =~ expected_relative_paths.map { |p| Dir.pwd + '/' + p }
     end
   end
 
