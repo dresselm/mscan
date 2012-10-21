@@ -20,7 +20,7 @@ module Mscan # :nodoc:
           # Save the scan meta file in the originating directory
           save("#{media_dir_path}/#{META_FILE_NAME}", media_dir_data)
           # Add the scan meta data to the composite
-          composite_scan_data.merge!(prepend_path_to_keys(media_dir_path, media_dir_data))
+          composite_scan_data.merge!(media_dir_path => media_dir_data)
         end
         # Save the composite scan data to the analysis directory
         save_composite_scan_data(composite_scan_data)
@@ -32,23 +32,10 @@ module Mscan # :nodoc:
     # @param composite_scan_data [Hash]
     # @return [String] the full path to the composite scan file
     def self.save_composite_scan_data(composite_scan_data)
-      full_path = "#{ANALYSIS_OUTPUT_DIR}/#{timestamp(COMPOSITE_SCAN_FILE_NAME)}"
+      full_path = "#{COMPOSITE_SCAN_OUTPUT_DIR}/#{timestamp(COMPOSITE_SCAN_FILE_NAME)}"
       save(full_path, composite_scan_data)
     end
     private_class_method :save_composite_scan_data
-
-    # Prepend the full {MediaDir directory} path to each filename key.
-    #
-    # @param path [String] the full {MediaDir directory} path
-    # @param data [Object] data for all {MediaFile files} within the {MediaDir directory}
-    # @return [Object]
-    def self.prepend_path_to_keys(path, data)
-      prepended_keys = data.map do |k, v|
-        ["#{path}/#{k}", v]
-      end
-      Hash[prepended_keys]
-    end
-    private_class_method :prepend_path_to_keys
 
   end
 end

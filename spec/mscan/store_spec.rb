@@ -38,14 +38,14 @@ describe Mscan::Store do
       Mscan::DummyStore.save('some_path/dummy_store.mscan', {:body => 'some string'})
 
       actual_string = File.open('some_path/dummy_store.mscan', "rb").read
-      actual_string.should == "{\"body\":\"some string\"}\n"
+      actual_string.should == "{\"body\":\"some string\"}"
     end
 
     it "should create an empty file if no content is passed" do
       Mscan::DummyStore.save('some_path/dummy_store.mscan')
 
       actual_string = File.open('some_path/dummy_store.mscan', "rb").read
-      actual_string.should == "{}\n"
+      actual_string.should == "{}"
     end
   end
 
@@ -53,7 +53,7 @@ describe Mscan::Store do
     before do
       FileUtils.mkdir_p('some_path')
       File.open('some_path/dummy_store.mscan', 'w+') do |f|
-        f.puts("{\"body\":\"some string\"}\n")
+        f.write("{\"body\":\"some string\"}")
       end
     end
 
@@ -78,15 +78,15 @@ describe Mscan::Store do
       FileUtils.mkdir_p('some_path')
       timestamp = Time.now.to_i
       File.open("some_path/#{timestamp + 1000}_dummy_store.mscan", 'w+') do |f|
-        f.puts("{\"body\":\"the file with the most recent timestamp\"}\n")
+        f.write("{\"body\":\"the file with the most recent timestamp\"}")
       end
 
       File.open("some_path/#{timestamp}_dummy_store.mscan", 'w+') do |f|
-        f.puts("{\"body\":\"the file with the less recent timestamp\"}\n")
+        f.write("{\"body\":\"the file with the less recent timestamp\"}")
       end
 
       File.open("some_path/dummy_store.mscan", 'w+') do |f|
-        f.puts("{\"body\":\"the file with no timestamp\"}\n")
+        f.write("{\"body\":\"the file with no timestamp\"}")
       end
 
       Mscan::DummyStore.load_most_recent('some_path/dummy_store.mscan').should == {"body"=>"the file with the most recent timestamp"}
@@ -95,7 +95,7 @@ describe Mscan::Store do
     it 'should return a non-timestamped file when there are no timestamped files' do
       FileUtils.mkdir_p('some_path')
       File.open("some_path/dummy_store.mscan", 'w+') do |f|
-        f.puts("{\"body\":\"the file with no timestamp\"}\n")
+        f.write("{\"body\":\"the file with no timestamp\"}")
       end
 
       Mscan::DummyStore.load_most_recent('some_path/dummy_store.mscan').should == {"body"=>"the file with no timestamp"}

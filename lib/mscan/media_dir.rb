@@ -28,7 +28,9 @@ module Mscan # :nodoc:
     # @param [String] root_path
     # @return [Array] an array of {MediaDir directories}
     def self.find_media_dirs(root_path)
-      raise InvalidPathError, "Unable to find media directories.  #{root_path} does not exist!" unless File.directory?(root_path)
+      unless File.directory?(root_path)
+        raise InvalidPathError, "Unable to find media directories.  #{root_path} does not exist!"
+      end
 
       media_directories = []
       Find.find(root_path) do |path|

@@ -21,23 +21,15 @@ class MediaBuilder
   }
 
   def self.build
-    files = DEFAULT_FILES
-
     # Build directories
     directories.each do |dir|
       FileUtils.mkdir_p(dir)
     end
 
     # Build media
-    files.each_pair do |file_name, metadata|
-      dirs = metadata[:dirs]
-      dirs.each do |dir|
-        full_path = File.join(BASE_DIR, dir, file_name)
-        File.open(full_path, 'w') { |f| f.write(metadata[:content]) }
-      end
+    files.each_pair do |full_path, content|
+      File.open(full_path, 'w') { |f| f.write(content) }
     end
-
-    # Find.find('spec/media') { |f| puts f }
   end
 
   def self.directories
@@ -51,5 +43,17 @@ class MediaBuilder
     directories
   end
 
+  def self.files
+    files = {}
+    DEFAULT_FILES.each_pair do |key, metadata|
+      file_name = key
+      dirs = metadata[:dirs]
+      content = metadata[:content]
+      dirs.each do |dir|
+        files[File.join(BASE_DIR, dir, file_name)] = content
+      end
+    end
+    files
+  end
 end
 
