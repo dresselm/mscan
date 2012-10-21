@@ -16,6 +16,4 @@ tmp
 bin
 !bin/mscan
 
-analysis
-!lib/mscan/analysis
-scanner.legacy.rb
+output
