@@ -83,6 +83,14 @@ module Mscan # :nodoc:
     # WinRAR Compressed Archive
     RAR  = 'rar'
 
+    # PAGE LAYOUT FORMATS
+    # Adobe InDesign Document File
+    INDD = 'indd'
+    # Portable Document Format File
+    PDF  = 'pdf'
+    # QuarkXPress Project File
+    QXP  = 'qxp'
+
     # TEMPORARY FORMATS
     # Backup File
     BAK  = 'bak'
@@ -93,7 +101,7 @@ module Mscan # :nodoc:
     #
     # @return [Array] all supported media types
     def all
-      ([] << photo << video << audio << archive).flatten
+      ([] << photo << video << audio << archive << page_layout).flatten
     end
 
     # All supported photo types
@@ -115,6 +123,13 @@ module Mscan # :nodoc:
     # @return [Array] all supported audio types
     def audio
       [AIF, MP3, MPA, M4A, MID, RA, WAV, WMA]
+    end
+
+    # All supported page layout types
+    #
+    # @return [Array] all supported page layout types
+    def page_layout
+      [INDD, PDF, QXP]
     end
 
     # All supported archive types

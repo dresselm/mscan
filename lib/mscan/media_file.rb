@@ -89,7 +89,7 @@ module Mscan # :nodoc:
       return false unless File.file?(file_path)
 
       is_valid_file_type = MediaFileType.valid?(file_path)
-      Logger.logger.info "Unsupported file type found for #{file_path}" unless is_valid_file_type
+      Logger.logger.info "Unsupported file type found for #{file_path}" unless is_valid_file_type || file_path.match(/\.mscan$/)
       is_valid_file_type
     end
 
