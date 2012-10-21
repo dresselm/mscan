@@ -56,7 +56,7 @@ describe Mscan::Scanner do
       before do
         Mscan::Scanner.scan
 
-        @timestamped_composite_file = "scans/#{Time.now.to_i}_scan.mscan"
+        @timestamped_composite_file = "output/scans/#{Time.now.to_i}_scan.mscan"
       end
 
       it 'should timestamp the file' do

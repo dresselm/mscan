@@ -22,7 +22,7 @@ describe Mscan::Analyzer do
 
   describe '.analyze' do
     it 'should load the most recent meta data' do
-      Mscan::Analyzer.should_receive(:load_most_recent).with('analysis/scan.mscan')
+      Mscan::Analyzer.should_receive(:load_most_recent).with('output/analysis/scan.mscan')
 
       Mscan::Analyzer.analyze
     end
