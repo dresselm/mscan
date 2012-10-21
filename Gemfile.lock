@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mscan (0.1.4)
+    mscan (0.2.0)
       active_support
       configuration (~> 1.3.2)
       yajl-ruby
