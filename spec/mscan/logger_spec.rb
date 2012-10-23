@@ -15,40 +15,18 @@ describe Mscan::Logger do
       result.first.should == 4
     end
 
-    context 'when verbose = true' do
-      before do
-        Configuration.for('app') do
-          verbose true
-        end
-      end
+    it 'should print begin and finish with the provided message' do
+      Mscan::Logger.logger.should_receive(:info).with('Begin some name...')
+      Mscan::Logger.logger.should_receive(:info).with(/Finished some name in/)
 
-      after do
-        Configuration.for('app') do
-          verbose false
-        end
-      end
-
-      it 'should print the name' do
-        Mscan::Logger.logger.should_receive(:info).with(/some name/)
-        Mscan::Logger.measure('some name') { 2 + 2 }
-      end
-
-      it "should print 'the block'" do
-        Mscan::Logger.logger.should_receive(:info).with(/the block/)
-        Mscan::Logger.measure { 2 + 2 }
-      end
+      Mscan::Logger.measure('some name') { 2 + 2 }
     end
 
-    context 'when verbose = false' do
-      it 'should not print the name' do
-        $stdout.should_not_receive(:puts).with(/some name/)
-        Mscan::Logger.measure('some name') { 2 + 2 }
-      end
+    it "should print 'the block' if no message is provided" do
+      Mscan::Logger.logger.should_receive(:info).with('Begin ...')
+      Mscan::Logger.logger.should_receive(:info).with(/Finished the block in/)
 
-      it "should not print 'the block'" do
-        $stdout.should_not_receive(:puts).with(/the block/)
-        Mscan::Logger.measure { 2 + 2 }
-      end
+      Mscan::Logger.measure { 2 + 2 }
     end
 
     # TODO write a test that measures the exact elapsed time

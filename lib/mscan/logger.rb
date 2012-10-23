@@ -20,10 +20,11 @@ module Mscan
     # @return [Object, Float] The result of calling the block
     #                         and the time spent in seconds
     def self.measure(name=nil, &block)
+      logger.info "Begin #{name}..."
       start_time = Time.now
       result = block.call if block_given?
       total_time = Time.now - start_time
-      logger.info "#{name || 'the block'} took #{total_time}s"
+      logger.info "Finished #{name || 'the block'} in #{total_time}s"
 
       [result || name, total_time]
     end

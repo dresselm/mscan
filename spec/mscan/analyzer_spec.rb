@@ -4,10 +4,14 @@ require 'fakefs/spec_helpers'
 describe Mscan::Analyzer do
   include FakeFS::SpecHelpers
 
-  let(:raw_meta_data) {
+  let(:raw_scan_data) {
     {
-      "some.png"  => {"modified_at" => 1299024957, "size" => 3226, "fingerprint" => "cd5a4d84eb060aef3aeeb9123bb7bb8c"},
-      "other.png" => {"modified_at" => 1299024957, "size" => 2998, "fingerprint" => "7ebd9ab20fcfffdf5d64f4efdf3b67a7"}
+      'some_path' => {'timestamp' => 1299025957, 'media_files' => [{'name' => 'file1.png', 'modified_at' => 1299024957, 'size' => 3226, 'fingerprint' => 'cd5a4d84eb060aef3aeeb9123bb7bb8c'},
+                                                                   {'name' => 'file2.png', 'modified_at' => 1299024957, 'size' => 2998, 'fingerprint' => '7ebd9ab20fcfffdf5d64f4efdf3b67a7'}]},
+
+      # fileA.png is a duplicate of file1.png
+      'some_different_path' => {'timestamp' => 1299025957, 'media_files' => [{'name' => 'fileA.png', 'modified_at' => 1299024957, 'size' => 3226, 'fingerprint' => 'cd5a4d84eb060aef3aeeb9123bb7bb8c'},
+                                                                             {'name' => 'fileB.png', 'modified_at' => 1299024957, 'size' => 1234, 'fingerprint' => '98194dajkhasdhkf3aeeb0q9ew09q08d'}]}
     }
   }
 
@@ -28,14 +32,14 @@ describe Mscan::Analyzer do
     end
 
     it 'should pass the meta data to analyzers' do
-      Mscan::Analyzer.stub(:load_most_recent).and_return(raw_meta_data)
-      Mscan::Analysis::Redundancy.should_receive(:analyze).with(raw_meta_data)
+      Mscan::Analyzer.stub(:load_most_recent).and_return(raw_scan_data)
+      Mscan::Analysis::Redundancy.should_receive(:analyze).with(raw_scan_data)
 
       Mscan::Analyzer.analyze
     end
 
     it 'should save the analysis' do
-      Mscan::Analyzer.stub(:load_most_recent).and_return(raw_meta_data)
+      Mscan::Analyzer.stub(:load_most_recent).and_return(raw_scan_data)
 
       Mscan::Analyzer.analyze
 

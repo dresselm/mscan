@@ -21,7 +21,6 @@ module Mscan # :nodoc:
         redundancy_analysis = new(raw_data, transformed_data)
 
         # TODO Organize duplicates/unique by their source/target root dirs
-
         redundancy_analysis
       end
 
@@ -42,16 +41,19 @@ module Mscan # :nodoc:
         fingerprint_hash = {}
         return fingerprint_hash if data.nil?
 
-        data.each do |key, value|
-          data_value  = value.dup
-          fingerprint = data_value.delete('fingerprint')
-          file_size   = data_value.delete('size')
-          if fingerprint_hash[fingerprint]
-            fingerprint_hash[fingerprint]['count'] += 1
-          else
-            fingerprint_hash[fingerprint] = {'count' => 1, 'size' => file_size, 'media' => []}
+        data.each_pair do |path, path_meta_data|
+          media_files = path_meta_data['media_files']
+          media_files.each do |media_file|
+            fingerprint = media_file.delete('fingerprint')
+            if fingerprint_hash[fingerprint]
+              fingerprint_hash[fingerprint]['count'] += 1
+            else
+              file_size = media_file['size']
+              fingerprint_hash[fingerprint] = {'count' => 1, 'size' => file_size, 'media_files' => []}
+            end
+            media_file['path'] = File.join(path, media_file.delete('name'))
+            fingerprint_hash[fingerprint]['media_files'] << media_file
           end
-          fingerprint_hash[fingerprint]['media'] << data_value.merge('path' => key)
         end
         fingerprint_hash
       end
@@ -60,7 +62,7 @@ module Mscan # :nodoc:
       def raw_data_values
         return [] if raw_data.nil?
 
-        @raw_data_values ||= @raw_data.values
+        @raw_data_values ||= @raw_data.values.map { |rdv| rdv['media_files'] }.flatten
       end
 
       # @return [Array] the transformed data values

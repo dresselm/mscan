@@ -12,15 +12,17 @@ module Mscan # :nodoc:
     #
     # @return [String] the path to the composite scan file
     def self.scan
-      Logger.measure('Scanning') do
+      Logger.measure('scanning') do
         composite_scan_data = {}
         MediaDir.find_all_media_dirs.each do |media_dir|
-          media_dir_path = media_dir.path
-          media_dir_data = media_dir.to_params(:fingerprint)
-          # Save the scan meta file in the originating directory
-          save("#{media_dir_path}/#{META_FILE_NAME}", media_dir_data)
-          # Add the scan meta data to the composite
-          composite_scan_data.merge!(media_dir_path => media_dir_data)
+          Logger.measure("scanning #{media_dir.path}") do
+            media_dir_path = media_dir.path
+            media_dir_data = media_dir.to_params(:fingerprint)
+            # Save the scan meta file in the originating directory
+            save("#{media_dir_path}/#{META_FILE_NAME}", media_dir_data)
+            # Add the scan meta data to the composite
+            composite_scan_data.merge!(media_dir_path => media_dir_data)
+          end
         end
         # Save the composite scan data to the analysis directory
         save_composite_scan_data(composite_scan_data)
