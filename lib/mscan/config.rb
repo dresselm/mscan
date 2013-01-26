@@ -9,8 +9,8 @@ module Mscan
     output_directory   'output'
 
     # scan directories
-    source_directories ['/tmp/scan']
-    target_directories []
+    source_directories ['/tmp/mscan/source']
+    target_directories ['/tmp/mscan/target']
     scan_directories   source_directories + target_directories
   end
 

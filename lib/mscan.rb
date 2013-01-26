@@ -10,7 +10,10 @@ require 'mscan/media_dir'
 require 'mscan/scanner'
 require 'mscan/analyzer'
 require 'mscan/analysis/redundancy'
+require 'mscan/report/html'
+require 'mscan/report/simple'
 require 'mscan/reporter'
+
 
 require 'find'
 require 'active_support'
