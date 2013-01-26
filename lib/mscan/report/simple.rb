@@ -3,7 +3,7 @@ module Mscan # :nodoc:
   	class Simple
 			def self.report(analysis)
 				Logger.measure('Simple') do
-					puts analysis.inspect
+					# puts analysis.inspect
 
 					output = "\n"
 					print_scan_summary(analysis, output)
