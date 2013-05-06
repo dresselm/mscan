@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mscan (0.2.3)
+    mscan (0.3.0)
       actionpack
       activesupport
       configuration (~> 1.3.2)
