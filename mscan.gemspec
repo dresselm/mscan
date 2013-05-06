@@ -15,9 +15,15 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = Mscan::VERSION
 
-  gem.add_runtime_dependency('yajl-ruby')
+  # BEGIN
+  # Once I determine what is being used, I need to slim this down
+  gem.add_runtime_dependency('actionpack')
   gem.add_runtime_dependency('activesupport')
+  # END
+
   gem.add_runtime_dependency('configuration', '~> 1.3.2')
+  gem.add_runtime_dependency('rainbow')
+  gem.add_runtime_dependency('yajl-ruby')
 
   gem.add_development_dependency('rake')
   gem.add_development_dependency('pry')

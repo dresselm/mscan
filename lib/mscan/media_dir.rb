@@ -36,11 +36,18 @@ module Mscan # :nodoc:
       Find.find(root_path) do |path|
         # Paths are relative to the working directory
         if File.directory?(path)
-          # Find.prune if File.basename(path)[0] == ?.
+          Find.prune if skip_directory?(path)
           media_directories << MediaDir.new(path)
         end
       end
       media_directories
+    end
+
+    def self.skip_directory?(path)
+      name      = File.basename(path)
+      extension = File.extname(name)
+
+      name[0] == ?. || extension == '.aplibrary' 
     end
 
     # Returns a list of all files and directories in

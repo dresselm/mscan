@@ -1,42 +1,43 @@
+require 'rainbow'
+
 module Mscan # :nodoc:
   module Report # :nodoc:
   	class Simple
-			def self.report(analysis)
-				Logger.measure('Simple') do
-					# puts analysis.inspect
+  		extend Helper
 
+			def self.report(analysis, options={})
+				Logger.measure('Simple') do
 					output = "\n"
 					print_scan_summary(analysis, output)
 					print_analysis_summary(analysis, output)
-					print_analysis_details(analysis, output)
+					print_analysis_details(analysis, output) if options.fetch(:verbose, false)
 					puts "#{output}\n"
 				end
 			end
 
 			def self.print_scan_summary(analysis, output)
-				output << "\nScan Summary\n"
-				output << "-----------------------------------------\n"
-				output << "Source directories: #{analysis['source_dirs'].join(', ')}\n"
-				output << "Target directories: #{analysis['target_dirs'].join(', ')}\n"
+				output << print_header('Scan Summary')
+				output << print_title_value('Source directories',analysis['source_dirs'].join(', '))
+				output << print_title_value('Target directories',analysis['target_dirs'].join(', '))
 				
-				output << "Files scanned: #{analysis['num_files']} => #{to_MB(analysis['size'])}MB\n\n"
+				output << print_title_value('Total files scanned',"#{to_files(analysis['num_files'])} => #{to_MB(analysis['size'])}")
+				output << print_title_value('Unique files',"#{to_files(analysis['num_unique_files'])} => #{to_MB(analysis['unique_size'])}")
+				output << print_title_value('Duplicate files',"#{to_files(analysis['num_duplicate_files'])} => #{to_MB(analysis['size'] - analysis['unique_size'])}")
 			end
 
 			def self.print_analysis_summary(analysis, output)
-				output << "\nAnalysis Summary\n"
-				output << "-----------------------------------------\n"
+				output << print_header('Analysis Summary')
 				
 				# classify unique media
 				source_media, target_media, shared_media = classify_media(analysis)
 
-				output << "Unique source media: #{source_media.size} => #{to_MB(size_from_fingerprints(analysis, source_media))}MB\n"
-				output << "Unique target media: #{target_media.size} => #{to_MB(size_from_fingerprints(analysis, target_media))}MB\n"
-				output << "Media shared across both source and target: #{shared_media.size} => #{to_MB(size_from_fingerprints(analysis, shared_media))}MB\n"			
+				output << print_title_value('Unique source media',"#{to_files(source_media.size)} => #{to_MB(size_from_fingerprints(analysis, source_media))}")
+				output << print_title_value('Unique target media',"#{to_files(target_media.size)} => #{to_MB(size_from_fingerprints(analysis, target_media))}")
+				output << print_title_value('Duplicate media',"#{to_files(shared_media.size)} => #{to_MB(size_from_fingerprints(analysis, shared_media))}")			
 			end
 
 			def self.print_analysis_details(analysis, output)
-				output << "\nAnalysis Details\n"
-				output << "-----------------------------------------\n"
+				output << print_header('Analysis Details')
 
 				source_media, target_media, shared_media = classify_media(analysis)				
 
@@ -84,6 +85,16 @@ module Mscan # :nodoc:
 				[source_media, target_media, shared_media]	
 			end
 
+			def self.print_header(header)
+				header = "\n#{header}\n".color(:green)
+				header << "-----------------------------------------\n"
+				header
+			end
+
+			def self.print_title_value(title,value)
+				"#{title.color(:magenta)}: #{value}\n"
+			end
+
 			def self.in_dir_tree?(path, dirs)
 				dirs.each do |dir|
 					return true if path =~ /#{dir}/ 
@@ -104,11 +115,6 @@ module Mscan # :nodoc:
 					{'path' => media_files_details.first['path']}
 				end
 			end
-
-			def self.to_MB(number)
-				(number.to_f / (1024 * 1024)).round(3) 
-			end
-
   	end
   end
 end
