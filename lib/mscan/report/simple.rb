@@ -41,15 +41,12 @@ module Mscan # :nodoc:
 
 				source_media, target_media, shared_media = classify_media(analysis)				
 
-				output << "\nUnique Source Media\n"
-				output << "-------------------\n"
-
+				output << print_sub_header('Unique Source Media')
 				details_from_fingerprints(analysis, source_media).each do |details|
 					output << "#{details['path']}\n"
 				end
 
-				output << "\nUnique Target Media\n"
-				output << "-------------------\n"
+				output << print_sub_header('Unique Target Media')
 				details_from_fingerprints(analysis, target_media).each do |details|
 					output << "#{details['path']}\n"
 				end
@@ -89,6 +86,12 @@ module Mscan # :nodoc:
 				header = "\n#{header}\n".color(:green)
 				header << "-----------------------------------------\n"
 				header
+			end
+
+			def self.print_sub_header(sub_header)
+				sub_header = "\n#{sub_header}\n".color(:blue)
+				sub_header << "-------------------\n"
+				sub_header
 			end
 
 			def self.print_title_value(title,value)
