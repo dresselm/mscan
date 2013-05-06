@@ -24,7 +24,7 @@ option_parser = OptionParser.new do |opts|
 		options[:analyze] = true
 	end
 
-	opts.on('-v','--verbose','') do
+	opts.on('-v','--verbose') do
 		options[:verbose] = true
 	end
 	# Flags
