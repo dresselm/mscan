@@ -17,3 +17,5 @@ bin
 !bin/mscan
 
 output
+
+.DS_Store
