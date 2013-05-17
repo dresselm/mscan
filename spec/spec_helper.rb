@@ -10,6 +10,9 @@ require 'mscan'
 require 'support/media_builder'
 require 'fakefs/safe'
 
+require 'coveralls'
+Coveralls.wear!
+
 Configuration.for('app') do
   log_level ::Logger::ERROR
   source_directories [Dir.pwd + '/spec/media/source']
