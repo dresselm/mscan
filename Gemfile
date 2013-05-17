@@ -7,5 +7,5 @@ group :test do
   gem 'fakefs'
   gem 'timecop'
   gem 'simplecov'
-  gem 'coveralls', require: false
+  gem 'coveralls', :require => false
 end
