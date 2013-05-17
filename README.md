@@ -1,5 +1,6 @@
  [![Build Status](https://secure.travis-ci.org/dresselm/mscan.png)](http://travis-ci.org/dresselm/mscan)
  [![Code Climate](https://codeclimate.com/github/dresselm/mscan.png)](https://codeclimate.com/github/dresselm/mscan)
+ [![Coverage Status](https://coveralls.io/repos/dresselm/mscan/badge.png?branch=master)](https://coveralls.io/r/dresselm/mscan?branch=master)
 
 # Mscan
 
