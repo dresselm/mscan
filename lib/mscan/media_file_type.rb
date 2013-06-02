@@ -36,6 +36,8 @@ module Mscan # :nodoc:
     SVG  = 'svg'
     # Tagged Image File Format
     TIFF = 'tiff'
+    # Tagged Image File Format 2
+    TIF  = 'tif'
 
     # VIDEO FORMATS
     # Audio Video Interleave File
@@ -72,6 +74,8 @@ module Mscan # :nodoc:
     WAV  = 'wav'
     # Windows Media Audio File
     WMA  = 'wma'
+    # MIDI Sequence File
+    SVQ  = 'svq'
 
     # ARCHIVE FORMATS
     # Zipped File
@@ -91,17 +95,49 @@ module Mscan # :nodoc:
     # QuarkXPress Project File
     QXP  = 'qxp'
 
-    # TEMPORARY FORMATS
+    # DOCUMENT TYPES
+    # Standard Text File
+    TXT  = 'txt'
+    # Microsoft Word File
+    DOC  = 'doc'
+    # eXtensible Markup Language
+    XML  = 'xml'
+    # MarkDown
+    MD   = 'md'
+
+    # SPREADSHEET TYPES
+    # Comma Separated Value
+    CSV  = 'csv'
+    # Microsoft Excel File
+    XLS  = 'xls'
+    # Apple Numbers File
+    NUM  = 'numbers'
+
+
+    # WEB TYPES
+    # HTML File
+    HTML = 'html'
+    # HTML File
+    HTM  = 'htm'
+    # Javascript File
+    JS   = 'js'
+    # CSS File
+    CSS  = 'css'
+
+
+    # TEMPORARY/IGNORE FORMATS
     # Backup File
     BAK  = 'bak'
     # Temporary File
     TMP  = 'tmp'
+    # MAC Index
+    DSS  = 'DS_Store'
 
     # All supported media types
     #
     # @return [Array] all supported media types
     def all
-      ([] << photo << video << audio << archive << page_layout).flatten
+      ([] << photo << video << audio << archive << page_layout << document << spreadsheet << web).flatten
     end
 
     # All supported photo types
@@ -122,7 +158,7 @@ module Mscan # :nodoc:
     #
     # @return [Array] all supported audio types
     def audio
-      [AIF, MP3, MPA, M4A, MID, RA, WAV, WMA]
+      [AIF, MP3, MPA, M4A, MID, RA, WAV, WMA, SVQ]
     end
 
     # All supported page layout types
@@ -130,6 +166,27 @@ module Mscan # :nodoc:
     # @return [Array] all supported page layout types
     def page_layout
       [INDD, PDF, QXP]
+    end
+
+    # All supported document types
+    #
+    # @return [Array] all supported document types
+    def document
+      [TXT, DOC, XML, MD]
+    end
+
+    # All supported spreadsheet types
+    #
+    # @return [Array] all supported spreadsheet types
+    def spreadsheet
+      [CSV, XLS, NUM]
+    end
+
+    # All supported web types
+    #
+    # @return [Array] all supported web types
+    def web
+      [HTML, HTM, CSS, JS]
     end
 
     # All supported archive types
@@ -143,7 +200,7 @@ module Mscan # :nodoc:
     #
     # @return [Array] all supported temp types
     def temp
-      [BAK, TMP]
+      [BAK, TMP, DSS]
     end
 
     # Returns true if the file is one of the
