@@ -47,7 +47,7 @@ module Mscan # :nodoc:
       name      = File.basename(path)
       extension = File.extname(name)
 
-      name[0] == ?. || extension == '.aplibrary' 
+      name[0] == ?. || MediaFileType::SKIP_TYPES.include?(extension)
     end
 
     # Returns a list of all files and directories in

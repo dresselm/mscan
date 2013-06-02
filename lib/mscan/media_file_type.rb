@@ -6,6 +6,8 @@ module Mscan # :nodoc:
   module MediaFileType
     extend self
 
+    SKIP_TYPES = ['.DS_Store','.db','.aplibrary']
+
     class MediaFileTypeError < RuntimeError; end # :nodoc:
     # Raised when the file type extension is missing
     class NoExtensionError < MediaFileTypeError; end
@@ -124,14 +126,11 @@ module Mscan # :nodoc:
     # CSS File
     CSS  = 'css'
 
-
-    # TEMPORARY/IGNORE FORMATS
+    # TEMPORARY FORMATS
     # Backup File
     BAK  = 'bak'
     # Temporary File
     TMP  = 'tmp'
-    # MAC Index
-    DSS  = 'DS_Store'
 
     # All supported media types
     #
@@ -200,7 +199,7 @@ module Mscan # :nodoc:
     #
     # @return [Array] all supported temp types
     def temp
-      [BAK, TMP, DSS]
+      [BAK, TMP]
     end
 
     # Returns true if the file is one of the
