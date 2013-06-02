@@ -5,8 +5,11 @@ module Mscan # :nodoc:
   # TODO Consider where Pathname, FileUtils and Tempfile could be used
   class MediaFile
 
+    attr_reader :path, :mtime
+
     def initialize(file_path)
-      @path = file_path
+      @path  = file_path
+      @mtime = modified_at
     end
 
     # Returns the relative file path

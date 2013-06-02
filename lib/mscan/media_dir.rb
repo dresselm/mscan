@@ -6,10 +6,11 @@ module Mscan # :nodoc:
     # Raised if the supplied path does not represent a valid directory
     class InvalidPathError < Error; end
 
-    attr_reader :path
+    attr_reader :path, :mtime
 
     def initialize(dir_path='.')
-      @path = dir_path
+      @path  = dir_path
+      @mtime = modified_at
     end
 
     # Returns a list of all {MediaDir media directories} for the configured
@@ -68,7 +69,19 @@ module Mscan # :nodoc:
         next unless MediaFile.valid?(entity_path)
         media << MediaFile.new(entity_path)
       end
+      max_entity_mtime = media.map(&:mtime).compact.max || @mtime
+      @mtime = [@mtime,max_entity_mtime].max
       media
+    end
+
+    def modified_at
+      File.mtime(path)
+    end
+
+    # Return +true+ if the cached timestamp is more recent than a
+    # maximum modified time of all sub
+    def unmodified?
+      false
     end
 
     # Sorts media by path name
@@ -85,12 +98,15 @@ module Mscan # :nodoc:
     # @param [Array] args optional arguments to pass through to each {MediaFile file}
     # @return [Object] parameter hash
     def to_params(*args)
-      meta_data   = {:timestamp => Time.now.to_i, :media_files => []}
-      media_files = meta_data[:media_files]
-      sorted_media.each do |media_file|
-        media_files << media_file.to_params(*args)
+      # if unmodified, then simply return the current hash
+      if unmodified?
+      else
+        media_files = []
+        sorted_media.each do |media_file|
+          media_files << media_file.to_params(*args)
+        end
+        {:timestamp => Time.now.to_i, :media_files => media_files}
       end
-      meta_data
     end
 
   end
