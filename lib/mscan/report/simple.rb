@@ -27,19 +27,24 @@ module Mscan # :nodoc:
 
 			def self.print_analysis_summary(analysis, output)
 				output << print_header('Analysis Summary')
-				
+
 				# classify unique media
 				source_media, target_media, shared_media = classify_media(analysis)
+				total_files          = analysis['num_files']
+				extraneous_files     = total_files - (source_media.size + target_media.size + shared_media.size)
+				total_file_size      = analysis['size']
+				extraneous_file_size = total_file_size - size_from_fingerprints(analysis, (source_media + target_media + shared_media))
 
-				output << print_title_value('Unique source media',"#{to_files(source_media.size)} => #{to_MB(size_from_fingerprints(analysis, source_media))}")
-				output << print_title_value('Unique target media',"#{to_files(target_media.size)} => #{to_MB(size_from_fingerprints(analysis, target_media))}")
-				output << print_title_value('Duplicate media',"#{to_files(shared_media.size)} => #{to_MB(size_from_fingerprints(analysis, shared_media))}")			
+				output << print_title_value('Unique source media (move to target)',"#{to_files(source_media.size)} => #{to_MB(size_from_fingerprints(analysis, source_media))}")
+				output << print_title_value('Unique target media (keep in target)',"#{to_files(target_media.size)} => #{to_MB(size_from_fingerprints(analysis, target_media))}")
+				output << print_title_value('Shared target media (remove from source)',"#{to_files(shared_media.size)} => #{to_MB(size_from_fingerprints(analysis, shared_media))}")
+				output << print_title_value('Extraneous media (remove from target and source)',"#{to_files(extraneous_files)} => #{to_MB(extraneous_file_size)}")
 			end
 
 			def self.print_analysis_details(analysis, output)
 				output << print_header('Analysis Details')
 
-				source_media, target_media, shared_media = classify_media(analysis)				
+				source_media, target_media, shared_media = classify_media(analysis)
 
 				output << print_sub_header('Unique Source Media')
 				details_from_fingerprints(analysis, source_media).each do |details|
@@ -100,14 +105,15 @@ module Mscan # :nodoc:
 
 			def self.in_dir_tree?(path, dirs)
 				dirs.each do |dir|
-					return true if path =~ /#{dir}/ 
+					return true if path =~ /#{dir}/
 				end
 				false
 			end
 
 			def self.size_from_fingerprints(analysis, fingerprints)
 				fingerprints.inject(0) do |total_size, fingerprint|
-					total_size += analysis['unique_media'][fingerprint]['size']
+					next unless fingerprint = analysis['unique_media'][fingerprint]
+					total_size += fingerprint['size']
 				end
 			end
 
