@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["matt.dressel@gmail.com"]
   gem.description   = %q{A utility to help manage our growing media collections}
   gem.summary       = %q{This utility helps manage media files by categorizing, detecting duplicates, differences and changes between multiple directories.}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/dresselm/mscan"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
