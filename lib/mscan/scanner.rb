@@ -10,6 +10,7 @@ module Mscan # :nodoc:
     # files in the each originating directory and produces a composite scan file
     # upon completion.
     #
+    # @param [Hash] options
     # @return [String] the path to the composite scan file
     def self.scan(options={})
       Logger.measure('scanning') do
@@ -31,7 +32,7 @@ module Mscan # :nodoc:
 
     # Saves the composite scan data to a timestamped file
     #
-    # @param composite_scan_data [Hash]
+    # @param [Hash] composite_scan_data
     # @return [String] the full path to the composite scan file
     def self.save_composite_scan_data(composite_scan_data)
       full_path = "#{COMPOSITE_SCAN_OUTPUT_DIR}/#{timestamp(COMPOSITE_SCAN_FILE_NAME)}"
