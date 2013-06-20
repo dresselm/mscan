@@ -1,1 +1,1 @@
-rvm --create 2.0.0@mscan
+rvm --create 2.0.0-p195@mscan

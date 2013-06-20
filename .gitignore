@@ -3,19 +3,15 @@
 .bundle
 .config
 .yardoc
-InstalledFiles
-_yardoc
+
 coverage
 doc/
-lib/bundler/man
+output
 pkg
 rdoc
-spec/reports
 tmp
 
 bin
 !bin/mscan
-
-output
 
 .DS_Store
