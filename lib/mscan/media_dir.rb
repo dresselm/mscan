@@ -17,7 +17,7 @@ module Mscan # :nodoc:
     #
     # @return [Array] an array of {MediaDir directories}
     def self.find_all_media_dirs
-      Mscan::Config.scan_directories.map do |root_dir|
+      scan_directories.map do |root_dir|
         find_media_dirs(root_dir)
       end.flatten
     end
@@ -44,11 +44,18 @@ module Mscan # :nodoc:
     end
 
     def self.skip_directory?(path)
-      name      = File.basename(path)
-      extension = File.extname(name)
-
-      name[0] == ?. || MediaFileType::SKIP_TYPES.include?(extension)
+      File.basename(path)[0] == ?.
     end
+
+    def self.scan_directories
+      Config.source_directories + Config::target_directories
+    end
+    private_class_method :scan_directories
+
+    def self.exclude_directories
+      Config.exclude_directories
+    end
+    private_class_method :exclude_directories
 
     # Returns a list of all files and directories in
     # this {MediaDir directory}

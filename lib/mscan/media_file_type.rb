@@ -5,9 +5,7 @@ module Mscan # :nodoc:
   # http://www.fileinfo.com/filetypes/common
   module MediaFileType
     extend self
-
-    SKIP_TYPES = ['.DS_Store','.db','.aplibrary']
-
+    
     class MediaFileTypeError < RuntimeError; end # :nodoc:
     # Raised when the file type extension is missing
     class NoExtensionError < MediaFileTypeError; end

@@ -17,7 +17,6 @@ Configuration.for('app') do
   log_level ::Logger::ERROR
   source_directories [Dir.pwd + '/spec/media/source']
   target_directories [Dir.pwd + '/spec/media/target']
-  scan_directories source_directories + target_directories
 end
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
