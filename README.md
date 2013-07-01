@@ -3,9 +3,9 @@ Mscan [![Build Status](https://secure.travis-ci.org/dresselm/mscan.png)](http://
 
 Mscan is a simple, command-line utility that can help you organize and clean up your media collection.  For example:
 
-# determine if duplicate media exists on your backup drive(s) and how much space would be saved by deleting the duplicates
-# determine if unique media exists on a drive that is not backed up
-# determine what percentage of your media collection are photos and what percentage of those are jpegs
+* determine if duplicate media exists on your backup drive(s) and how much space would be saved by deleting the duplicates
+* determine if unique media exists on a drive that is not backed up
+* determine what percentage of your media collection are photos and what percentage of those are jpegs
 
 ## Installation
 
